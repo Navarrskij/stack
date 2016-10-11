@@ -20,4 +20,10 @@ RSpec.describe Question, type: :model do
     #it 'validates presence of body' do
 	#expect(Question.new(title: '1111')).to_not be_valid
 	#end
+	#class QuestionTest < AtiveSanswersupport::TestCase
+		#should have_many (:answers).
+		#class_name ('Question')
+	#end
+it {should have_many(:answers)}
+
 end
