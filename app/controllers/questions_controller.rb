@@ -14,9 +14,18 @@ class QuestionsController < ApplicationController
   def edit
   end
 
+  def create
+    @question = Question.create(questions_params)
+    redirect_to @question
+  end
+
   private
 
   def load_qwe
      @question = Question.find(params[:id])
+  end
+
+  def questions_params
+    params.require(:question).permit(:title, :body)
   end
 end
