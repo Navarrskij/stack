@@ -10,6 +10,7 @@
 #
 
 class Question < ApplicationRecord
-	validates :body, :title, presence: true
-	has_many :answers
+  has_many :answers, dependent: :destroy
+  validates :body, :title, presence: true
+	
 end

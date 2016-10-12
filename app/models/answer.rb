@@ -9,6 +9,8 @@
 #
 
 class Answer < ApplicationRecord
-	validates :body, presence: true
-	belongs_to :question
+  belongs_to :question
+  validates :body, presence: true
+
 end
+
