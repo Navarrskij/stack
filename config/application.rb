@@ -13,7 +13,7 @@ module Stack
     # -- all .rb files in that directory are automatically loaded.
   
   config.generators do |g|
-    g.test_frameworks :rspec, 
+    g.test_framework :rspec, 
                       fixtures: true,
                       view_spec: false,
                       helper_specs: false,
@@ -21,4 +21,6 @@ module Stack
                       request_specs: false,
                       controller_spec: true
     g.fixture_replacement :factory_girl, dir: 'spec/factories'
+    end
+  end
 end

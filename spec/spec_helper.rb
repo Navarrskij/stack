@@ -108,7 +108,6 @@ require "bundler/setup"
     #with.test_framework :minitest
     #with.test_framework :minitest_4
     #with.test_framework :test_unit
-
     # Choose one or more libraries:
     with.library :active_record
     with.library :active_model
