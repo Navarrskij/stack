@@ -6,7 +6,6 @@
   <strong>Text:</strong>
   <%= @question.body %>
 </p>
-
 <h2>Add a Answer:</h2>
 <%= form_for([@question, @question.answers.build]) do |f| %>
   <p>
