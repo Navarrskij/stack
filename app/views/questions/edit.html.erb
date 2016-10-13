@@ -1,7 +1,6 @@
 <h1>Editing questions</h1>
  
 <%= form_for :question, url: question_path(@question), method: :patch do |f| %>
- 
   <% if @question.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -15,21 +14,17 @@
       </ul>
     </div>
   <% end %>
- 
   <p>
     <%= f.label :title %><br>
     <%= f.text_field :title %>
   </p>
- 
   <p>
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
   </p>
- 
   <p>
     <%= f.submit %>
   </p>
- 
 <% end %>
  
 <%= link_to 'Back', question_path %>
