@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :load_qwe, only: [:show, :edit]
+  before_action :load_qwe, only: [:show, :edit, :update]
   def index
     @questions = Question.all
   end
@@ -20,6 +20,14 @@ class QuestionsController < ApplicationController
       redirect_to @question
     else
       render :new
+    end
+  end
+
+  def update
+    if @question.update(questions_params)
+      redirect_to @question
+    else
+      render :edit
     end
   end
 
