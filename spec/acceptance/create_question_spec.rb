@@ -15,4 +15,11 @@ feature 'Create question', %q{
 
     expect(page).to have_content 'Question successfully created'
   end
+
+  scenario 'User can view the questions' do
+
+    visit questions_path
+
+    expect(current_path).to eq questions_path
+  end
 end
