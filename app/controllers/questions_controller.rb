@@ -16,7 +16,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(questions_params)
+    @question = current_user.questions.build(questions_params)
     if @question.save
       flash[:notice] = "Question successfully created"
       redirect_to @question
@@ -34,9 +34,15 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    flash[:notice] = "Question is successfully deleted"
-    redirect_to questions_path
+    @question = current_user.questions.find_by_id(params[:id])
+    if @question.present?
+      @question.destroy
+      flash[:notice] = "Question is successfully deleted"
+      redirect_to questions_path
+    else
+      flash[:notice] = "Permission denide"
+      render :index
+    end
   end
 
   private

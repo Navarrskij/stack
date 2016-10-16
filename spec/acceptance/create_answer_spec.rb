@@ -6,41 +6,30 @@ feature 'Create answer', %q{
   I want to be able to answer the question
 } do 
 
-  given(:user) {create(:user)}
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
   
   scenario 'Authenticated user create answer' do
-
     sign_in(user)
 
-    visit questions_path
-    click_on 'ask question'
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text text'
-    click_on 'Save Question'
-
-    expect(page).to have_content 'Question successfully created'
-    click_on 'Save Question'
-    visit questions_path
-    click_on 'Answer'
+    visit question_path(question)
     fill_in 'Body', with: 'bla bla bla'
-    click_on 'Save Answer'
-
+    click_on 'Create Answer'
+    
     expect(page).to have_content 'Answer successfully created'
 
   end
 
-    scenario 'Non-authenticated user create answer' do
-
-    visit questions_path
-    click_on 'Answer'
+  scenario 'Non-authenticated user create answer' do
+    visit question_path(question)
+    click_on 'Create Answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
-  scenario 'User can view the answer' do
+  scenario 'Non-authenticated user can view the answer' do
+    visit question_path(question)
 
-    visit questions_path
-
-    expect(current_path).to eq questions_path
+    expect(current_path).to eq question_path(question)
   end
 end

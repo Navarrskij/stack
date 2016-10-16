@@ -6,8 +6,12 @@
   <strong>Text:</strong>
   <%= @question.body %>
 </p>
+<%= link_to 'delete', question_path(@question), method: :delete %>
+<%= render partial: 'answers/answer', collection: @question.answers %>
+
 <h2>Add a Answer:</h2>
 <%= form_for([@question, @question.answers.build]) do |f| %>
+  <%= errors_for(@answer) %>
   <p>
     <%= f.label :body %><br>
     <%= f.text_area :body %>
