@@ -4,28 +4,21 @@ class UserController < ApplicationController
   end
 
   def new
-   
   end
 
   def create
-   
-    end
-    
   end
 
   def profile
-    @user = current_user
   end
 
   def edit
   end
 
   def update
-   
   end
 
-  def destroy
-    
+  def destroy 
   end
 
   
