@@ -15,6 +15,16 @@ FactoryGirl.define do
     user
     title "MyString"
     body "MyText"
+
+  factory :question_answers do
+    transient do
+        answer_count 1
+      end
+ 
+    after(:create) do |question, evaluator|
+      create_list(:answer, evaluator.answer_count, question: question)
+    end
+  end
   end
 
   factory :invalid_question, class: "Question" do
