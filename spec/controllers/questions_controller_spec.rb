@@ -115,7 +115,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-  
+
   describe 'DELETE destroy' do
     sign_in_user
     
