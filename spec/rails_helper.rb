@@ -29,8 +29,8 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
-  config.extend ControllerMacros, type: :controller
-  config.include AcceptanceHelper, type: :feature
+  config.extend ControllerMacros
+  config.include AcceptanceHelper
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

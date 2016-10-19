@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let!(:question) { create(:question) }
   describe 'Get index' do
     let(:questions) { create_list(:question, 2) }
     before {get :index}
@@ -63,7 +63,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirect_to show views' do
         post :create, question: attributes_for(:question)
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to redirect_to questions_path
       end
     end
     context 'with invalid attributes' do

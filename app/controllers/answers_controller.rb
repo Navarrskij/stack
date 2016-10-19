@@ -1,26 +1,23 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(answer_params.merge(user: current_user))
     if @answer.save
-      flash[:notice] = "Answer successfully created"
-      redirect_to @question
+      redirect_to @question, notice: "Answer successfully created"
     else
       render 'questions/show'
     end
   end
 
   def destroy
-    @answer = current_user.answers.find_by_id(params[:id])
-    @question = Question.find_by_id(params[:question_id])
-    if @answer.present?
+    @answer = Answer.find(params[:id])
+      if @answer.user_id == current_user.id
       @answer.destroy
-      flash[:notice] = "Answer is successfully deleted"
-      redirect_to question_path(@question)
+      redirect_to @answer.question, notice: "Answer is successfully deleted"
     else
-      flash[:notice] = "Permission denide"
-      redirect_to question_path(@question)
+      redirect_to @question, notice: "Permission denide"
     end
   end
 

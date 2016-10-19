@@ -1,4 +1,6 @@
 <p>
   <%= answer.body %>
-  <%= link_to 'delete', question_answer_path(@question, answer), method: :delete %>
+  <% if current_user && answer.user_id == current_user.id %>
+  <%= link_to 'delete', answer_path(answer), method: :delete %>
+  <% end %>
 </p>

@@ -6,7 +6,9 @@
   <strong>Text:</strong>
   <%= @question.body %>
 </p>
-<%= link_to 'delete', question_path(@question), method: :delete %>
+ <% if current_user && @question.user_id == current_user.id %>
+      <td><%= link_to 'Delete', question_path(@question), method: :delete %></td>
+   <% end %>
 <%= render partial: 'answers/answer', collection: @question.answers %>
 
 <h2>Add a Answer:</h2>

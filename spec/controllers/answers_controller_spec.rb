@@ -27,4 +27,17 @@ RSpec.describe AnswersController, type: :controller do
       end 
     end
   end
+  describe 'DELETE destroy' do
+    sign_in_user
+
+      it 'delete the answer from database' do
+        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count)
+      end 
+
+      it 'redirect_to answer' do
+        post :create, question_id: question, answer: attributes_for(:answer)
+        expect(response).to redirect_to question_path
+      end
+    end
+
 end
