@@ -33,12 +33,11 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = current_user.questions.find(params[:id])
-    if @question.user_id == current_user.id
+    
+    if current_user.author_of?(@question)
       @question.destroy
       redirect_to questions_path, notice: "Question is successfully deleted"
-    else
-      render :index, notice: "Permission denide"
+ 
     end
   end
 

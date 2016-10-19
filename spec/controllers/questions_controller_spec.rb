@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let!(:question) { create(:question) }
+  let(:question) { create(:question) }
   describe 'Get index' do
     let(:questions) { create_list(:question, 2) }
     before {get :index}
@@ -112,6 +112,33 @@ RSpec.describe QuestionsController, type: :controller do
       it 're_renders edit view' do
         patch :update, id: question, question: {title: 'new title', body: nil}
         expect(response).to render_template :edit
+      end
+    end
+  end
+  
+  describe 'DELETE destroy' do
+    sign_in_user
+    
+    context 'is author' do
+      let(:question) { @user.questions.create(title: '111', body: '222') }
+      before { question }
+
+      it 'delete question' do
+        expect { delete :destroy, params: { id: question.id } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirect to index view' do
+        delete :destroy, params: { id: question.id }
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'is not author' do
+      let(:question) { create(:user).questions.create(title: '111', body: '222') }
+      before { question }
+
+      it 'not delete question' do
+        expect { delete :destroy, params: { id: question.id } }.to_not change(Question, :count)
       end
     end
   end

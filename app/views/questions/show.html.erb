@@ -6,10 +6,10 @@
   <strong>Text:</strong>
   <%= @question.body %>
 </p>
- <% if current_user && @question.user_id == current_user.id %>
+ <% if current_user && current_user.author_of?(@question) %>
       <td><%= link_to 'Delete', question_path(@question), method: :delete %></td>
    <% end %>
-<%= render partial: 'answers/answer', collection: @question.answers %>
+<%= render @question.answers %>
 
 <h2>Add a Answer:</h2>
 <%= form_for([@question, @question.answers.build]) do |f| %>
@@ -24,3 +24,5 @@
 <% end %>
 <%= link_to 'Edit', edit_question_path(@question) %> |
 <%= link_to 'Back', questions_path %>
+
+

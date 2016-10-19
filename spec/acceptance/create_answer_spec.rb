@@ -17,7 +17,16 @@ feature 'Create answer', %q{
     click_on 'Create Answer'
     
     expect(page).to have_content 'Answer successfully created'
+    expect(page).to have_content 'bla bla bla'
+  end
 
+  scenario 'Authenticated user create invalid answer' do
+    sign_in(user)
+
+    visit question_path(question)
+    click_on 'Create Answer'
+    
+    expect(page).to have_content '1 error prohibited from being saved:'
   end
 
   scenario 'Non-authenticated user create answer' do
@@ -25,11 +34,5 @@ feature 'Create answer', %q{
     click_on 'Create Answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
-  end
-
-  scenario 'Non-authenticated user can view the answer' do
-    visit question_path(question)
-
-    expect(current_path).to eq question_path(question)
   end
 end

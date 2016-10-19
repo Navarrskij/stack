@@ -2,11 +2,14 @@
 #
 # Table name: answers
 #
-#  id         :integer          not null, primary key
-#  body       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  body        :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  question_id :integer
+#  user_id     :integer
 #
+
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do

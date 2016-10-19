@@ -30,14 +30,30 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE destroy' do
     sign_in_user
 
-      it 'delete the answer from database' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count)
-      end 
-
-      it 'redirect_to answer' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to redirect_to question_path
+    context 'is author' do
+      let(:question) { @user.questions.create(title: '111', body: '222') }
+      let(:answer)   { question.answers.create(body: '333', user_id: @user.id) }
+      before { answer }
+ 
+      it 'delete answer from database' do
+      expect { delete :destroy, params: { id: answer.id } }.to change(question.answers, :count).by(-1)
+      end
+ 
+      it 'redirect_to question view' do
+        delete :destroy, params: { id: answer.id }
+        expect(response).to redirect_to question
+      end
+     end
+ 
+    context 'is not author' do
+      let(:user)     { create(:user) } 
+      let(:question) { user.questions.create(title: '111', body: '222') }
+      let(:answer)   { question.answers.create(body: '333', user_id: user.id) }
+      before { answer }
+ 
+      it 'not delete answer from database' do
+        expect { delete :destroy, params: { id: answer.id } }.to_not change(Answer, :count)
       end
     end
-
+  end
 end
