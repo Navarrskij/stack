@@ -14,7 +14,12 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: attributes_for(:answer)
         expect(response).to redirect_to question
       end
+
+      it 'answer association to user ' do
+        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(@user.answers, :count)
+      end 
     end
+
     context 'with invalid attributes' do
 
       it 'doesnt save new answer in a database' do
@@ -27,6 +32,7 @@ RSpec.describe AnswersController, type: :controller do
       end 
     end
   end
+
   describe 'DELETE destroy' do
     sign_in_user
 
