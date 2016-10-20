@@ -11,14 +11,20 @@
 #
 
 FactoryGirl.define do
+  sequence :title do |n|
+    "title#{n}"
+  end
+  sequence :body do |n|
+    "body#{n}"
+  end
   factory :question do
     user
-    title "MyString"
-    body "MyText"
+    title
+    body 
 
   factory :question_answers do
     transient do
-        answer_count 1
+        answer_count 3
       end
  
     after(:create) do |question, evaluator|
@@ -30,5 +36,11 @@ FactoryGirl.define do
   factory :invalid_question, class: "Question" do
     title nil
     body nil
+  end
+
+  factory :question2, class: "Question" do
+    user
+    title "MyString"
+    body "MyText"
   end
 end

@@ -12,9 +12,9 @@
 
 FactoryGirl.define do
   factory :answer do
+    sequence(:body, 1) { |n| "bodynew#{n}" }
     user
     question
-    body "MyText"
   end
 
   factory :invalid_answer, class: "Answer" do

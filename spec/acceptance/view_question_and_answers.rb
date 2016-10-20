@@ -14,6 +14,8 @@ feature 'view answers and question', %q{
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    expect(page).to have_content answer.body
+    expect(page).to have_content "bodynew1"
+    expect(page).to have_content "bodynew2"
+    expect(page).to have_content "bodynew3"
   end 
 end

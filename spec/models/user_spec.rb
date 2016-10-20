@@ -38,13 +38,5 @@ RSpec.describe User do
         context "user is not question author" do
       it { expect(user2).to_not be_author_of(question) }
     end
- 
-    context "user is answer author" do
-      it { expect(author).to be_author_of(answer) }
-    end
- 
-    context "user is not answer author" do
-      it { expect(user2).to_not be_author_of(answer) }
-    end
   end
 end 

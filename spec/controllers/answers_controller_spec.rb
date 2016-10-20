@@ -7,7 +7,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
 
       it 'save the new answer in a database' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count)
+        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
       end 
 
       it 'redirect_to question' do
@@ -16,7 +16,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'answer association to user ' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(@user.answers, :count)
+        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(@user.answers, :count).by(1)
       end 
     end
 

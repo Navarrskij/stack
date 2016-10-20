@@ -24,4 +24,9 @@ require 'rails_helper'
     visit question_path(answer.question)
     expect(page).to_not have_link 'Delete'
   end
+
+  scenario 'Non-authenticated user delete the answer' do
+    visit question_path(answer.question)
+    expect(page).to_not have_link 'Delete'
+  end
 end

@@ -24,4 +24,9 @@ feature 'Delete question', %q{
     visit question_path(question)
     expect(page).to_not have_link 'Delete'
   end
+
+  scenario 'Non-authenticated user delete the question' do
+    visit question_path(question)
+    expect(page).to_not have_link 'Delete'
+  end
 end 
