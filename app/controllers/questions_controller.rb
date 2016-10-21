@@ -33,14 +33,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    
     if current_user.author_of?(@question)
       @question.destroy 
       flash[:notice] = "Question is successfully deleted"
     else
       flash[:notice] = "Permission denide"
     end
-      redirect_to questions_path
+    redirect_to questions_path
   end
 
   private
