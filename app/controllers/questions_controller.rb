@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit, :update]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :load_question, except: [:new, :create, :index]
   def index
     @questions = Question.all
   end
@@ -15,9 +16,9 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(questions_params)
+    @question = current_user.questions.build(questions_params)
     if @question.save
-      redirect_to @question
+      redirect_to questions_path, notice: "Question successfully created"
     else
       render :new
     end
@@ -29,6 +30,17 @@ class QuestionsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    
+    if current_user.author_of?(@question)
+      @question.destroy 
+      flash[:notice] = "Question is successfully deleted"
+    else
+      flash[:notice] = "Permission denide"
+    end
+      redirect_to questions_path
   end
 
   private

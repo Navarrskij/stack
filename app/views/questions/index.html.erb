@@ -1,5 +1,5 @@
 <h1>Listing questions</h1>
- 
+
 <table>
   <tr>
     <th>Title</th>
@@ -10,7 +10,11 @@
       <td><%= question.title %></td>
       <td><%= question.body %></td>
       <td><%= link_to 'Show', question_path(question) %></td>
-      <td><%= link_to 'Edit', edit_question_path(question) %></td>
+  <% if current_user && current_user.author_of?(question) %>
+      <td><%= link_to 'Delete', question_path(question), method: :delete %></td>
+  <% end %>
     </tr>
   <% end %>
 </table>
+<%= link_to 'ask question', new_question_path %>
+

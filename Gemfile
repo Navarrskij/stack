@@ -32,16 +32,19 @@ gem 'pg'
 gem 'annotate'
 gem 'rails-controller-testing'
 gem 'slim-rails'
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'capybara'
 end
 
 group :test do
   gem 'shoulda-matchers', require: false
+  gem 'launchy'
 end
 
 group :development do
