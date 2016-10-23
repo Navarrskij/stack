@@ -7,28 +7,28 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
 
       it 'save the new answer in a database' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
       end 
 
       it 'redirect_to question' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to redirect_to question
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :create
       end
 
       it 'answer association to user ' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(@user.answers, :count).by(1)
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(@user.answers, :count).by(1)
       end 
     end
 
     context 'with invalid attributes' do
 
       it 'doesnt save new answer in a database' do
-        expect { post :create, question_id: question, answer: {body: nil} }.to_not change(Answer, :count)
+        expect { post :create, question_id: question, answer: {body: nil}, format: :js }.to_not change(Answer, :count)
       end 
       
       it 'redirect to show view questions' do
-        post :create, question_id: question, answer: {body: nil}
-        expect(response).to render_template 'questions/show'
+        post :create, question_id: question, answer: {body: nil}, format: :js
+        expect(response).to render_template :create
       end 
     end
   end
