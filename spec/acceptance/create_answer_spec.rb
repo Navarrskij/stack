@@ -7,16 +7,15 @@ feature 'Create answer', %q{
 } do 
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given!(:question) { create(:question, user: user) }
   
-  scenario 'Authenticated user create answer' do
+  scenario 'Authenticated user create answer', js: true do
     sign_in(user)
 
     visit question_path(question)
     fill_in 'Body', with: 'bla bla bla'
     click_on 'Create Answer'
     
-    expect(page).to have_content 'Answer successfully created'
     expect(page).to have_content 'bla bla bla'
   end
 

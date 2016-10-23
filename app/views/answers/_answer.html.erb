@@ -1,4 +1,4 @@
-<p>
+<p class='answer'>
   <%= answer.body %>
   <% if current_user && current_user.author_of?(answer) %>
   <%= link_to 'delete', answer_path(answer), method: :delete %>
