@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
+  
   describe 'POST create' do
+    let!(:question) { create(:question) }
     sign_in_user
     context 'with valid attributes' do
 
@@ -38,7 +39,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'is author' do
       let(:question) { @user.questions.create(title: '111', body: '222') }
-      let(:answer)   { question.answers.create(body: '333', user_id: @user.id) }
+      let!(:answer)   { question.answers.create(body: '333', user_id: @user.id) }
       before { answer }
  
       it 'delete answer from database' do
@@ -54,12 +55,49 @@ RSpec.describe AnswersController, type: :controller do
     context 'is not author' do
       let(:user)     { create(:user) } 
       let(:question) { user.questions.create(title: '111', body: '222') }
-      let(:answer)   { question.answers.create(body: '333', user_id: user.id) }
-      before { answer }
+      let!(:answer)   { question.answers.create(body: '333', user_id: user.id) }
+      
  
       it 'not delete answer from database' do
         expect { delete :destroy, params: { id: answer.id } }.to_not change(Answer, :count)
       end
     end
   end
+
+  describe 'PATCH update' do
+    sign_in_user
+    context 'is author' do
+      let(:question) { @user.questions.create(title: '111', body: '222') }
+      let(:answer)   { question.answers.create(body: '333', user_id: @user.id) }
+
+    it 'assigns the requested answer to @answer' do
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+      expect(assigns(:answer)).to eq answer
+      end 
+
+    it 'change answer attributes' do
+      patch :update, id: answer, question_id: question, answer: {body: 'new body'}, format: :js
+      answer.reload
+      expect(answer.body).to eq 'new body'
+      end
+
+    it 'render update template' do
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+      expect(response).to render_template :update
+      end
+    end
+    context 'is not author' do
+      let(:user)     { create(:user) } 
+      let(:question) { user.questions.create(title: '111', body: '222') }
+      let(:answer)   { question.answers.create(body: '333', user_id: user.id) }
+
+      it 'not change answer attributes' do
+
+      patch :update, id: answer, question_id: question, answer: {body: 'new body'}, format: :js
+      answer.reload
+
+      expect(answer.body).to_not eq 'new body'
+      end
+    end
+  end   
 end

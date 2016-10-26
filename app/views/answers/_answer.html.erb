@@ -1,6 +1,13 @@
-<p class='answer'>
+<div id='answer_<%= answer.id %>'>
+	
+	<% answer.persisted? %>
   <%= answer.body %>
+
   <% if current_user && current_user.author_of?(answer) %>
   <%= link_to 'delete', answer_path(answer), method: :delete %>
-  <% end %>
-</p>
+  <%= link_to 'Edit', edit_answer_path(answer), remote: true %>
+
+<% end %>
+</div>
+
+

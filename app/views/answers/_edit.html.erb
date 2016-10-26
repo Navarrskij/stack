@@ -1,0 +1,11 @@
+
+ <%= form_for(answer, remote: true) do |a| %>
+    <%= a.label :answer %><br>
+  <div class='answer-errors'>
+      </div>
+    <%= a.text_area :body %>
+  <p>
+    <%= a.submit 'Save' %>
+  </p>
+  <% end %>
+
