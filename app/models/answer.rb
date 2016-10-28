@@ -16,8 +16,10 @@ class Answer < ApplicationRecord
   validates :body, presence: true
 
   def best!
-  	question.answers.update_all best: false
-  	self.update_attributes best: true
+  	transaction do
+  		question.answers.update_all best: false
+  		self.update_attributes best: true
+  	end
   end
 end
 
