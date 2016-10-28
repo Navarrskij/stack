@@ -14,5 +14,10 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   validates :body, presence: true
+
+  def best!
+  	question.answers.update_all best: false
+  	self.update_attributes best: true
+  end
 end
 

@@ -14,8 +14,8 @@
   <% end %>
   </div>
   </div>
-  <div class='answers'>
-<%= render @question.answers %>
+<div class='answers'>
+  <%= render @question.answers %>
 </div>
 
 <h2>Add a Answer:</h2>
@@ -23,14 +23,11 @@
   <%= errors_for(@answer) %>
   <p>
     <%= f.label :body %><br>
-     <div class='answer-errors'>
-      </div>
+<div class='answer-errors'>
+</div>
     <%= f.text_area :body %>
   </p>
   <p>
     <%= f.submit %>
   </p>
 <% end %>
-
-
-

@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :load_answer, except: [:create]
 
   def create
     @question = Question.find(params[:question_id])
@@ -9,11 +10,9 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    @answer = Answer.find(params[:id])
   end
 
   def update
-    @answer = Answer.find(params[:id])
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
       @question = @answer.question
@@ -21,16 +20,25 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
       if current_user.author_of?(@answer)
       @answer.destroy
     end
-      
+  end
+
+  def best
+    if current_user.author_of?(@answer.question)
+      @answer.best!
+    end
+    @answers = @answer.question.answers.order(best: :desc)
   end
 
   private
 
-    def answer_params
-      params.require(:answer).permit(:body)
-    end
+  def load_answer
+    @answer = Answer.find(params[:id])
+  end
+
+  def answer_params
+    params.require(:answer).permit(:body)
+  end
 end
