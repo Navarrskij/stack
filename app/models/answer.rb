@@ -18,7 +18,7 @@ class Answer < ApplicationRecord
   def best!
   	transaction do
   		question.answers.update_all best: false
-  		self.update_attributes best: true
+  		update! best: true
   	end
   end
 end
