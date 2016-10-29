@@ -32,5 +32,3 @@ class User < ApplicationRecord
 end
 
 
-#@question.user_id == current_user.id
-# current_user.author_of?(answer)

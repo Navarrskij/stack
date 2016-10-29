@@ -1,0 +1,15 @@
+<%= form_for @question, remote: true do |f| %>
+  <div class='question-errors'>
+  </div>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.submit 'Save question' %>
+  </p>
+<% end %>

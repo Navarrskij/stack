@@ -12,22 +12,11 @@
     <td><%= link_to 'Delete', question_path(@question), method: :delete %></td>
     <td><%= link_to 'Edit', edit_question_path(@question), remote: true %></td>
   <% end %>
-  </div>
-  </div>
+</div>
+</div>
 <div class='answers'>
   <%= render @question.answers %>
 </div>
 
-<h2>Add a Answer:</h2>
-<%= form_for([@question, @question.answers.build], remote: true) do |f| %>
-  <%= errors_for(@answer) %>
-  <p>
-    <%= f.label :body %><br>
-<div class='answer-errors'>
-</div>
-    <%= f.text_area :body %>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
-<% end %>
+
+

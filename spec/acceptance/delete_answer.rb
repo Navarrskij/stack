@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
  
   feature 'Delete answer', %q{
     In order to remove question
@@ -11,21 +11,22 @@ require 'rails_helper'
   given(:question) { create(:question, user: author) }
   given(:answer)   { create(:answer, question: question, user: author) }
  
-  scenario 'Author delete the answer' do
-    sign_in(answer.user)
+  scenario 'Author delete the answer', js: true do
+    sign_in(author)
     visit question_path(answer.question)
-    click_link 'Delete'
-    expect(page).to have_content 'Answer is successfully deleted'
-    expect(page).to_not have_content answer.body
+    within '.answers' do
+      click_on 'Delete'
+      expect(page).to_not have_content answer.body
+    end
   end
  
-  scenario 'Non author delete the answer' do
+  scenario 'Non author delete the answer', js: true do
     sign_in(user2)
     visit question_path(answer.question)
     expect(page).to_not have_link 'Delete'
   end
 
-  scenario 'Non-authenticated user delete the answer' do
+  scenario 'Non-authenticated user delete the answer',js: true do
     visit question_path(answer.question)
     expect(page).to_not have_link 'Delete'
   end

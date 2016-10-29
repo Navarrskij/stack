@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Create answer', %q{
   To help community
@@ -19,13 +19,13 @@ feature 'Create answer', %q{
     expect(page).to have_content 'bla bla bla'
   end
 
-  scenario 'Authenticated user create invalid answer' do
+  scenario 'Authenticated user create invalid answer', js: true do
     sign_in(user)
 
     visit question_path(question)
     click_on 'Create Answer'
     
-    expect(page).to have_content '1 error prohibited from being saved:'
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user create answer' do
