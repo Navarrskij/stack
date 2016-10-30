@@ -15,7 +15,7 @@ feature 'Create question', %q{
     click_on 'ask question'
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'text text text'
-    click_on 'Save Question'
+    click_on 'Create Question'
 
     expect(page).to have_content 'Question successfully created'
     expect(page).to have_content 'Test question text text text'
@@ -28,7 +28,7 @@ feature 'Create question', %q{
     visit questions_path
     click_on 'ask question'
     fill_in 'Body', with: 'text text text'
-    click_on 'Save Question'
+    click_on 'Create Question'
 
     expect(page).to have_content '1 error prohibited from being saved:'
   end
