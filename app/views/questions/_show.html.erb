@@ -8,6 +8,12 @@
   <strong>Text:</strong>
   <%= @question.body %>
 </p>
+<p>
+ <strong>Attachments:</strong>
+  <% @question.attachments.each do |a| %>
+     <%= a.file.file.filename %>
+ </p>
+  <% end %>
   <% if current_user && current_user.author_of?(@question) %>
     <td><%= link_to 'Delete', question_path(@question), method: :delete %></td>
     <td><%= link_to 'Edit', edit_question_path(@question), remote: true %></td>
