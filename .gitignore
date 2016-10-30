@@ -20,6 +20,7 @@
 /config/database.yml
 /config/secrets.yml
 .idea
+/public/uploads
 
 # Ignore Byebug command history file.
 .byebug_history
