@@ -8,6 +8,7 @@
 #  updated_at  :datetime         not null
 #  question_id :integer
 #  user_id     :integer
+#  best        :boolean
 #
 
 require 'rails_helper'

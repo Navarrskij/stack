@@ -24,7 +24,7 @@
   <%= render @question.answers %>
 </div>
 
-<h2>Add a Answer:</h2>
+Add a Answer:
 <%= form_for([@question, @question.answers.build], remote: true) do |f| %>
   <%= errors_for(@answer) %>
   <p>
@@ -32,6 +32,12 @@
 <div class='answer-errors'>
 </div>
     <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.fields_for :attachments do |a| %>
+      <%= a.label :file %>
+      <%= a.file_field :file %>
+    <% end %>
   </p>
   <p>
     <%= f.submit %>
