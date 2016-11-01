@@ -1,0 +1,14 @@
+= form_for @question, url: questions_path do |f|
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :body
+    = f.text_field :body
+  h3 Attachments
+  #attachments
+    = f.fields_for :attachments do |a|
+      = render 'attachment_fields', f: a
+    .links
+      = link_to_add_association 'add file', f, :attachments
+  = f.submit
