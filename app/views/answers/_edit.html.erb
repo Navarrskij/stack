@@ -4,6 +4,10 @@
   <div class='answer-errors'>
       </div>
     <%= a.text_area :body %>
+    Attachments:
+  <% answer.attachments.each do |a| %>
+     <%= link_to a.file.identifier, a.file.url %>
+  <% end %>
   <p>
     <%= a.submit 'Save' %>
   </p>
