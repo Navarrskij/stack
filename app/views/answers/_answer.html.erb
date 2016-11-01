@@ -2,7 +2,10 @@
 	
 	<% answer.persisted? %>
   <%= answer.body %>
-
+    Attachments:
+  <% answer.attachments.each do |a| %>
+     <%= link_to a.file.identifier, a.file.url %>
+  <% end %>
 
 <% if current_user && current_user.author_of?(answer) %>
   <%= link_to 'Delete', answer_path(answer), method: :delete, remote: true, data: { confirm: 'Are you sure?' } %>
