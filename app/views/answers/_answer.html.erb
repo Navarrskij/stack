@@ -4,7 +4,12 @@
   <%= answer.body %>
     Attachments:
   <% answer.attachments.each do |a| %>
-     <%= link_to a.file.identifier, a.file.url %>
+    <div id='attachment_<%= a.id %>'>
+    <%= link_to a.file.identifier, a.file.url %>
+    <% if current_user && current_user.author_of?(a.attachmentable) %>
+      <%= link_to 'del', attachment_path(a), method: :delete, remote: true %>
+      </div>
+  <% end %>
   <% end %>
 
 <% if current_user && current_user.author_of?(answer) %>
