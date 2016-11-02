@@ -10,6 +10,12 @@
     <%= f.text_area :body %>
   </p>
   <p>
+    Attachments:
+  <% @question.attachments.each do |a| %>
+     <%= link_to a.file.identifier, a.file.url %>
+  <% end %>
+  </p>
+  <p>
     <%= f.submit 'Save question' %>
   </p>
 <% end %>

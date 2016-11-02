@@ -8,6 +8,17 @@
   <strong>Text:</strong>
   <%= @question.body %>
 </p>
+<p>
+  <strong>Attachments:</strong>
+  <% @question.attachments.each do |a| %>
+    <div id='attachment_<%= a.id %>'>
+      <%= link_to a.file.identifier, a.file.url %>
+      <% if current_user && current_user.author_of?(a.attachmentable) %>
+      <%= link_to 'del', attachment_path(a), method: :delete, remote: true %>
+    </div>
+      <% end %>
+  <% end %>
+</p>
   <% if current_user && current_user.author_of?(@question) %>
     <td><%= link_to 'Delete', question_path(@question), method: :delete %></td>
     <td><%= link_to 'Edit', edit_question_path(@question), remote: true %></td>
@@ -18,16 +29,4 @@
   <%= render @question.answers %>
 </div>
 
-<h2>Add a Answer:</h2>
-<%= form_for([@question, @question.answers.build], remote: true) do |f| %>
-  <%= errors_for(@answer) %>
-  <p>
-    <%= f.label :body %><br>
-<div class='answer-errors'>
-</div>
-    <%= f.text_area :body %>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
-<% end %>
+<%= render partial: 'form_answer' %>
