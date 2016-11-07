@@ -32,6 +32,14 @@ class AnswersController < ApplicationController
     @answers = @answer.question.answers.order(best: :desc)
   end
 
+  def vote_up
+    @answer.vote_up(current_user)
+  end
+
+  def vote_down
+    @answer.vote_down(current_user)
+  end  
+
   private
 
   def load_answer

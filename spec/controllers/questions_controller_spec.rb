@@ -140,4 +140,36 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'Patch vote_up' do
+    sign_in_user
+    context 'user positive votes' do
+      before {question.votes.create(value: 1) }
+
+      it 'assigns the requested question to @question' do
+        patch :vote_up, params: { id: question.id }
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'user votes positive and rating increase' do
+        expect { patch :vote_up, params: { id: question.id } }.to change{ question.votes.sum(:value) }.by(1)
+      end
+    end
+  end
+
+  describe 'Patch vote_down' do
+    sign_in_user
+    context 'user negative votes' do
+      before {question.votes.create(value: -1) }
+
+      it 'assigns the requested question to @question' do
+        patch :vote_up, params: { id: question.id }
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'user votes negative and rating decrease' do
+        expect { patch :vote_down, params: { id: question.id } }.to change{ question.votes.sum(:value) }.by(-1)
+      end
+    end
+  end
 end
