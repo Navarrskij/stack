@@ -52,18 +52,18 @@ class QuestionsController < ApplicationController
       if success
         format.json {render json: {rating: @question.rating.to_json}}
       else
-        format.json { render json: @question.errors.full_messages, status: :unprocessable_entity }
+        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
       end
     end
   end
 
   def vote_down
-    success? error = @question.vote_down(current_user)
+    success, error = @question.vote_down(current_user)
     respond_to do |format|
     if success
         format.json {render json: {rating: @question.rating.to_json}}
       else
-        format.json { render json: @question.errors.full_messages, status: :unprocessable_entity }
+        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
       end
     end
   end  

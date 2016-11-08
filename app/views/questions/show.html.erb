@@ -27,15 +27,17 @@
 <div class='q_rating'>
   <% if user_signed_in? %>
   <%= link_to 'vote up', vote_up_question_path(@question), method: :patch, remote: true, data: { type: :json} %><br>
-  <%= @question.rating %><br>
-  <%= link_to 'vote down', vote_down_question_path(@question), method: :patch, remote: true, data: { type: :json} %><br>
-</div>
-
+  <div class="value">
+    <%= @question.rating %><br>
   </div>
-  <% end %>
+  <%= link_to 'vote down', vote_down_question_path(@question), method: :patch, remote: true, data: { type: :json} %><br>
+  <div class="vote-erorr">
+  </div>
+</div>
+<% end %>
+  </div>
 </div>
 <div class='answers'>
   <%= render @question.answers %>
 </div>
-
 <%= render partial: 'form_answer' %>
