@@ -23,9 +23,9 @@ module Votable
 
   def vote_up(user)
     if user.author_of?(self)
-      flash[:notice] = "Don't vote it post"
+      error = "Don't vote it post"
     elsif was_vote_up?(user)
-      flash[:notice] = "Can't vote this post twice"
+      error = "Can't vote this post twice"
     else
       revoke_vote(user) if was_vote_down?(user)
       votes.create(user: user, value: 1)
@@ -34,9 +34,9 @@ module Votable
 
   def vote_down(user)
     if user.author_of?(self)
-      flash[:notice] = "Don't vote it post"
+      error = "Don't vote it post"
     elsif was_vote_down?(user)
-      flash[:notice] = "Can't vote this post twice"
+     error = "Can't vote this post twice"
     else
       revoke_vote(user) if was_vote_up?(user)
       votes.create(user: user, value: -1)
