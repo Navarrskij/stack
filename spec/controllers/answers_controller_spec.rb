@@ -137,5 +137,43 @@ RSpec.describe AnswersController, type: :controller do
         expect { patch :best, params: { id: answer.id, format: :js } }.to_not change(answer, :best)
       end
     end    
-  end   
+  end 
+
+  describe 'Patch vote_up' do
+    sign_in_user
+    context 'user positive votes' do
+      let(:user) { create(:user) } 
+      let(:question) { user.questions.create(title: '111', body: '222') }
+      let!(:answer) { question.answers.create(body: '333', user_id: user.id) }
+      before {answer.votes.create(value: 1) }
+
+      it 'assigns the requested answer to @answer' do
+        patch :vote_up, params: { id: answer.id, format: :js }
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'user votes positive and rating increase' do
+        expect { patch :vote_up, params: { id: answer.id, format: :js  } }.to change{ answer.votes.sum(:value) }.by(1)
+      end
+    end
+  end
+
+  describe 'Patch vote_down' do
+    sign_in_user
+    context 'user negative votes' do
+      let(:user) { create(:user) } 
+      let(:question) { user.questions.create(title: '111', body: '222') }
+      let!(:answer) { question.answers.create(body: '333', user_id: user.id) }
+      before {question.votes.create(value: -1) }
+
+      it 'assigns the requested question to @question' do
+        patch :vote_up, params: { id: answer.id }
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'user votes negative and rating decrease' do
+        expect { patch :vote_down, params: { id: answer.id, format: :js } }.to change{ answer.votes.sum(:value) }.by(-1)
+      end
+    end
+  end  
 end

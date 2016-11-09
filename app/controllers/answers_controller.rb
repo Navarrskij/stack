@@ -33,12 +33,26 @@ class AnswersController < ApplicationController
   end
 
   def vote_up
-    @answer.vote_up(current_user)
+    success, error = @answer.vote_up(current_user)
+    respond_to do |format|
+      if success
+        format.json {render json: {rating: @answer.rating.to_json}}
+      else
+        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
+      end
+    end
   end
 
   def vote_down
-    @answer.vote_down(current_user)
-  end  
+    success, error = @answer.vote_down(current_user)
+    respond_to do |format|
+    if success
+        format.json {render json: {rating: @answer.rating.to_json}}
+      else
+        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
 
   private
 
