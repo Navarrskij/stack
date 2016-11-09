@@ -7,5 +7,3 @@ $(document).on("ajax:error", function(e, xhr, status, error) {
     message = $.parseJSON(xhr.responseText);
     $('.vote-erorr').html(message.error);
   })
-
-
