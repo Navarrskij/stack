@@ -12,13 +12,16 @@ feature 'Create question', %q{
     sign_in(user)
 
     visit questions_path
-    click_on 'ask question'
+    click_on 'Ask Question'
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'text text text'
     click_on 'Create Question'
 
-    expect(page).to have_content 'Question successfully created'
-    expect(page).to have_content 'Test question text text text'
+    expect(page).to have_content 'Test question'
+
+    click_on 'Show'
+
+    expect(page).to have_content 'text text text'
   end
 
   scenario 'Authenticated user create invalid question' do
@@ -26,7 +29,7 @@ feature 'Create question', %q{
     sign_in(user)
 
     visit questions_path
-    click_on 'ask question'
+    click_on 'Ask Question'
     fill_in 'Body', with: 'text text text'
     click_on 'Create Question'
 
@@ -36,7 +39,7 @@ feature 'Create question', %q{
     scenario 'Non-authenticated user create question' do
 
     visit questions_path
-    click_on 'ask question'
+    click_on 'Ask Question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end

@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  include Voted
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
 
@@ -30,28 +31,6 @@ class AnswersController < ApplicationController
       @answer.best!
     end
     @answers = @answer.question.answers.order(best: :desc)
-  end
-
-  def vote_up
-    success, error = @answer.vote_up(current_user)
-    respond_to do |format|
-      if success
-        format.json {render json: {rating: @answer.rating.to_json}}
-      else
-        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def vote_down
-    success, error = @answer.vote_down(current_user)
-    respond_to do |format|
-    if success
-        format.json {render json: {rating: @answer.rating.to_json}}
-      else
-        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
-      end
-    end
   end
 
   private

@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  include Voted
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, except: [:new, :create, :index]
   def index
@@ -44,29 +45,7 @@ class QuestionsController < ApplicationController
       flash[:notice] = "Permission denide"
     end
       redirect_to questions_path
-  end
-
-  def vote_up
-    success, error = @question.vote_up(current_user)
-    respond_to do |format|
-      if success
-        format.json {render json: {rating: @question.rating.to_json}}
-      else
-        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def vote_down
-    success, error = @question.vote_down(current_user)
-    respond_to do |format|
-    if success
-        format.json {render json: {rating: @question.rating.to_json}}
-      else
-        format.json { render json:  {error: error}.to_json, status: :unprocessable_entity }
-      end
-    end
-  end  
+  end 
 
   private
 
