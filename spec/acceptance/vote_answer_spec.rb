@@ -35,7 +35,7 @@ feature 'Vote answer', %q{
 
   scenario 'Non-authenticated user votes', js: true do
     visit question_path(question)
-    
+   
     expect(page).to_not have_content 'vote down'
     expect(page).to_not have_content 'vote up'
   end
@@ -69,8 +69,8 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.a-rating' do
-      click_on 'vote down'
-      expect(page).to have_content "Don't vote it post"
+      expect(page).to_not have_content 'vote down'
+      expect(page).to_not have_content 'vote up'
     end
   end
 end

@@ -6,20 +6,14 @@ module Voted
   end
 
   def vote_up
-    success, error = @votable.vote_up(current_user)
-    if success
+    if @votable.vote_up(current_user)
       render json: {rating: @votable.rating}.to_json
-    else
-      render json: {error: error}.to_json, status: :unprocessable_entity
-    end
+end
   end
 
   def vote_down
-    success, error = @votable.vote_down(current_user)
-    if success
+    if @votable.vote_down(current_user)
       render json: {rating: @votable.rating}.to_json
-    else
-      render json: {error: error}.to_json, status: :unprocessable_entity
     end
   end
 

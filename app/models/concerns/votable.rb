@@ -18,29 +18,26 @@ module Votable
   end
 
   def rating
-    votes.where(votable: self).sum(:value)
+    votes.sum(:value)
   end
 
   def vote_up(user)
-    if user.author_of?(self)
-      error = "Don't vote it post"
-    elsif was_vote_up?(user)
-      revoke_vote(user)
-    else
-      revoke_vote(user) if was_vote_down?(user)
-      votes.create(user: user, value: 1)
-    end
-    error ? [false, error] : true 
+    vote(user, 1)
   end
 
   def vote_down(user)
+    vote(user, -1)
+  end
+
+  private
+
+  def vote(user, val)
     if user.author_of?(self)
       error = "Don't vote it post"
-    elsif was_vote_down?(user)
-      revoke_vote(user)
     else
-      revoke_vote(user) if was_vote_up?(user)
-      votes.create(user: user, value: -1)
+      create_vote = (was_vote_down?(user) && val == -1) || (was_vote_up?(user) && val == 1) ? false : true
+      revoke_vote(user) 
+      votes.create(user: user, value: val) if create_vote
     end
     error ? [false, error] : true 
   end

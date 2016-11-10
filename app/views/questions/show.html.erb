@@ -26,6 +26,7 @@
 
 <div class='q_rating'>
   <% if user_signed_in? %>
+  <% if current_user.author_of?(@question)? false : true %>
   <%= link_to 'vote up', vote_up_question_path(@question), method: :patch, remote: true, data: { type: :json} %><br>
   <div class="value">
     <%= @question.rating %><br>
@@ -34,6 +35,7 @@
   <div class="vote-erorr">
   </div>
 </div>
+<% end %>
 <% end %>
   </div>
 </div>

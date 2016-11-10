@@ -26,15 +26,21 @@
 <% end %>
 
   <div class='a-rating'>
-    <% if user_signed_in? %>
+  <% if user_signed_in? %>
+  <% if current_user.author_of?(answer)? false : true %>
     <%= link_to 'vote up', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json} %><br>
+  <% end %>
+  <% end %>
     <div class="a-value">
       <%= answer.rating %><br>
     </div>
+  <% if user_signed_in? %>
+  <% if current_user.author_of?(answer)? false : true %>
     <%= link_to 'vote down', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json} %><br>
     <div class="a-vote-erorr">
     </div>
   </div>
+  <% end %>
   <% end %>
 
 </div>

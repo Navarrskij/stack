@@ -7,37 +7,48 @@ shared_examples 'votable' do
   let(:model) { create(described_class.to_s.underscore.to_sym) }
 
   describe 'rating' do
-    context 'positive vote' do
+    context 'positive and negative vote' do
       before { 2.times {create(:vote, value: 1, votable: model, user: create(:user)) } }
-
-      it { expect(model.rating).to eq(2) }
-    end
-
-    context 'negative vote' do
       before { 2.times {create(:vote, value: -1, votable: model, user: create(:user)) } }
 
-      it { expect(model.rating).to eq(-2) }
-    end
-
-    context 'zero vote' do
       it { expect(model.rating).to eq(0) }
-    end    
+    end
   end
 
   describe 'was_vote_up?' do
     context 'when have votes up' do
       before { create(:vote, value: 1, votable: model, user: user) }
 
-      it {expect(model.rating).to eq(1) }
+      it {expect(model.was_vote_up?(user)).to be true }
     end 
+
+    context 'when have votes down' do
+      before { create(:vote, value: -1, votable: model, user: user) }
+
+      it { expect(model.was_vote_up?(user)).to be false }
+    end
+
+    context 'when not any votes' do
+      it { expect(model.was_vote_up?(user)).to be false }
+    end
   end
 
   describe 'was_vote_down?' do
     context 'when have votes down' do
       before { create(:vote, value: -1, votable: model, user: user) }
 
-      it { expect(model.rating).to eq(-1) }
-    end  
+      it { expect(model.was_vote_down?(user)).to be true }
+    end 
+
+    context 'when have votes up' do
+      before { create(:vote, value: 1, votable: model, user: user) }
+
+      it { expect(model.was_vote_down?(user)).to be false }
+    end
+
+    context 'when not any votes' do
+      it { expect(model.was_vote_down?(user)).to be false }
+    end 
   end
 
   describe 'revoke_vote' do
@@ -62,6 +73,22 @@ shared_examples 'votable' do
     context "on his own post" do
       it { expect { model.vote_up(user) }.to_not change{ model.rating }}
     end
+
+    context "when voted vote up" do
+      before { create(:vote, value: 1, votable: model, user: user2) }
+
+      it "revoke vote down" do
+        expect { model.vote_up(user2) }.to change{ model.rating }.by(-1)
+      end
+    end
+
+    context "when voted vote down" do
+      before { create(:vote, value: -1, votable: model, user: user2) }
+
+      it "revoke to vote up" do
+        expect { model.vote_up(user2) }.to change{ model.rating }.by(2)
+      end
+    end
   end
 
   describe 'vote_down' do
@@ -74,6 +101,22 @@ shared_examples 'votable' do
 
     context "on his own post" do
       it { expect { model.vote_down(user) }.to_not change{ model.rating }}
+    end
+  end
+
+    context "when voted vote down" do
+      before { create(:vote, value: -1, votable: model, user: user2) }
+
+      it "revoke vote up" do
+        expect { model.vote_up(user2) }.to change{ model.rating }.by(2)
+      end
+    end
+
+    context "when voted vote up" do
+      before { create(:vote, value: 1, votable: model, user: user2) }
+
+      it "revoke to vote down" do
+        expect { model.vote_up(user2) }.to change{ model.rating }.by(-1)
     end
   end
 end

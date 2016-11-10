@@ -76,8 +76,7 @@ feature 'Vote question', %q{
     sign_in(user)
     visit question_path(my_question)
 
-    click_on 'vote down'
-    
-    expect(page).to have_content "Don't vote it post"
+    expect(page).to_not have_content 'vote down'
+    expect(page).to_not have_content 'vote up'
   end
 end

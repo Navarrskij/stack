@@ -20,7 +20,7 @@ feature 'Edit question', %q{
       click_on 'Save question'
 
       expect(page).to_not have_content question.body
-      expect(page).to have_content 'mynewquestion'
+      expect(page).to have_content 'mynewtitle'
       expect(page).to_not have_selector 'textarea'
     end
   end
