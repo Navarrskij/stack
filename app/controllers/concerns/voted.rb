@@ -8,7 +8,7 @@ module Voted
   def vote_up
     if @votable.vote_up(current_user)
       render json: {rating: @votable.rating}.to_json
-  end
+    end
   end
 
   def vote_down

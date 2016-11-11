@@ -64,16 +64,29 @@ shared_examples 'votable' do
 
   describe 'vote_up' do
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
-    let(:user2) { create(:user) }    
+    let(:user2) { create(:user) }
+
+    context "when voted vote up other user post" do
+      before { create(:vote, value: 1, votable: model, user: user) }
+
+      it "change rating" do
+        expect { model.vote_up(user2) }.to change{ model.rating }.by(1) 
+      end
+
+      it "return method vote_up" do
+        expect(model.vote_up(user2)).to eq(true)
+      end
+    end    
     
-    it "on other user post" do
-      expect { model.vote_up(user2) }.to change{ model.rating }.by(1)
-      expect(model.rating).to eq(1) 
-    end
-    
-    it "on his own post" do
-      expect { model.vote_up(user) }.to_not change{ model.rating }
-      expect(model.rating).to eq(0) 
+    context "when voted vote up on his own post" do
+
+      it "not change rating" do
+        expect { model.vote_up(user) }.to_not change{ model.rating }
+      end
+
+      it "return method vote_up" do
+        expect(model.vote_up(user)).to eq([false, "Don't vote it post"])
+      end
     end
 
     context "when voted vote up" do
@@ -81,7 +94,6 @@ shared_examples 'votable' do
 
       it "revoke vote down" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(-1)
-        expect(model.rating).to eq(0)
       end
     end
 
@@ -90,7 +102,6 @@ shared_examples 'votable' do
 
       it "revoke to vote up" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(2)
-        expect(model.rating).to eq(1) 
       end
     end
   end
@@ -99,23 +110,34 @@ shared_examples 'votable' do
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
     let(:user2) { create(:user) }
          
-    it "on other user post" do   
-      expect { model.vote_down(user2) }.to change{ model.rating }.by(-1)
-      expect(model.rating).to eq(-1)  
+    context "when voted vote down other user post" do
+      before { create(:vote, value: -1, votable: model, user: user) }
+
+      it "change rating" do   
+        expect { model.vote_down(user2) }.to change{ model.rating }.by(-1)  
+      end
+
+      it "return method vote_down" do
+        expect(model.vote_down(user2)).to eq(true)
+      end
     end
 
-    it "on his own post" do
-      expect { model.vote_down(user) }.to_not change{ model.rating }
-      expect(model.rating).to eq(0)
+    context "when voted vote up on his own post" do
+
+      it "no change rating" do
+        expect { model.vote_down(user) }.to_not change{ model.rating }
+      end
+
+      it "return method vote_down" do
+        expect(model.vote_down(user)).to eq([false, "Don't vote it post"])
+      end
     end
-  end
 
     context "when voted vote down" do
       before { create(:vote, value: -1, votable: model, user: user2) }
 
       it "revoke vote up" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(2)
-        expect(model.rating).to eq(1)
       end
     end
 
@@ -124,7 +146,7 @@ shared_examples 'votable' do
 
       it "revoke to vote down" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(-1)
-        expect(model.rating).to eq(0)
+      end
     end
   end
 end
