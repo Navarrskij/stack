@@ -6,11 +6,11 @@ module Votable
   end
 
   def was_vote_up?(user)
-    votes.find_by(user: user, value: 1).present?
+    votes.exists?(user: user, value: 1)
   end
 
   def was_vote_down?(user)
-    votes.find_by(user: user, value: -1).present?
+    votes.exists?(user: user, value: -1)
   end
 
   def revoke_vote(user)

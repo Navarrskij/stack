@@ -9,9 +9,9 @@ shared_examples 'votable' do
   describe 'rating' do
     context 'positive and negative vote' do
       before { 2.times {create(:vote, value: 1, votable: model, user: create(:user)) } }
-      before { 2.times {create(:vote, value: -1, votable: model, user: create(:user)) } }
+      before { create(:vote, value: -1, votable: model, user: create(:user)) } 
 
-      it { expect(model.rating).to eq(0) }
+      it { expect(model.rating).to eq(1) }
     end
   end
 
@@ -66,12 +66,14 @@ shared_examples 'votable' do
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
     let(:user2) { create(:user) }    
     
-    context "on other user post" do
-      it { expect { model.vote_up(user2) }.to change{ model.rating }.by(1) }
+    it "on other user post" do
+      expect { model.vote_up(user2) }.to change{ model.rating }.by(1)
+      expect(model.rating).to eq(1) 
     end
-
-    context "on his own post" do
-      it { expect { model.vote_up(user) }.to_not change{ model.rating }}
+    
+    it "on his own post" do
+      expect { model.vote_up(user) }.to_not change{ model.rating }
+      expect(model.rating).to eq(0) 
     end
 
     context "when voted vote up" do
@@ -79,6 +81,7 @@ shared_examples 'votable' do
 
       it "revoke vote down" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(-1)
+        expect(model.rating).to eq(0)
       end
     end
 
@@ -87,6 +90,7 @@ shared_examples 'votable' do
 
       it "revoke to vote up" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(2)
+        expect(model.rating).to eq(1) 
       end
     end
   end
@@ -94,13 +98,15 @@ shared_examples 'votable' do
   describe 'vote_down' do
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
     let(:user2) { create(:user) }
-    
-    context "on other user post" do      
-      it { expect { model.vote_down(user2) }.to change{ model.rating }.by(-1) }
+         
+    it "on other user post" do   
+      expect { model.vote_down(user2) }.to change{ model.rating }.by(-1)
+      expect(model.rating).to eq(-1)  
     end
 
-    context "on his own post" do
-      it { expect { model.vote_down(user) }.to_not change{ model.rating }}
+    it "on his own post" do
+      expect { model.vote_down(user) }.to_not change{ model.rating }
+      expect(model.rating).to eq(0)
     end
   end
 
@@ -109,6 +115,7 @@ shared_examples 'votable' do
 
       it "revoke vote up" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(2)
+        expect(model.rating).to eq(1)
       end
     end
 
@@ -117,6 +124,7 @@ shared_examples 'votable' do
 
       it "revoke to vote down" do
         expect { model.vote_up(user2) }.to change{ model.rating }.by(-1)
+        expect(model.rating).to eq(0)
     end
   end
 end
