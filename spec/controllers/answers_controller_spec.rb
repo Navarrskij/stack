@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   
+  it_behaves_like 'voted'
+  
   describe 'POST create' do
     let!(:question) { create(:question) }
     sign_in_user
@@ -137,5 +139,5 @@ RSpec.describe AnswersController, type: :controller do
         expect { patch :best, params: { id: answer.id, format: :js } }.to_not change(answer, :best)
       end
     end    
-  end   
+  end 
 end

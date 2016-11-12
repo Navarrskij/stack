@@ -1,1 +1,19 @@
-
+h1.page-header
+  = "List Questions"
+  .pull-right
+    = link_to 'Ask Question', new_question_path
+- @questions.each do |question|               
+  h2
+    = link_to question.title, question_path(question)  
+  p.lead
+    = "by "
+    = link_to question.user.email, '#'
+  p 
+    span.glyphicon.glyphicon-time 
+      = question.created_at.strftime(" Posted on %b %e, %Y at %k:%M")
+  hr       
+  p = question.body
+  = link_to question_path(question), class: "btn btn-primary" do
+    = 'Show'
+    span.glyphicon.glyphicon-chevron-right            
+  hr
