@@ -1,8 +1,8 @@
-$(document).on("ajax:success", function(e, data, status, xhr) {
+$(document).on("ajax:success", '.vote-link-answer', function(e, data, status, xhr) {
   answer = $.parseJSON(xhr.responseText);
-  $('.a-rating .a-value').html(answer.rating);
+  $("#" + $(e.target).data('container')).find('.a-value').html(answer.rating);
 })
-$(document).on("ajax:error", function(e, xhr, status, error) {
+$(document).on("ajax:error", '.vote-link-answer', function(e, xhr, status, error) {
 	message = $.parseJSON(xhr.responseText);
-  $('.a-vote-erorr').html(message.error);
-  })
+  $("#" + $(e.target).data('container')).find('.a-vote-erorr').html(message.error);
+})

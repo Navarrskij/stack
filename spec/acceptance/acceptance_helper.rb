@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
-	Capybara.javascript_driver = :webkit
+  
+	Capybara.server                 = :puma
+  Capybara.javascript_driver      = :webkit
+  Capybara.default_max_wait_time  = 5
+  Capybara.ignore_hidden_elements = true
+  Capybara.server_port            = 5000
 	config.use_transactional_fixtures = false
 	config.include AcceptanceHelper, type: :feature
 

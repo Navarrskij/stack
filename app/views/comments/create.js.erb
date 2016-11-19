@@ -1,0 +1,20 @@
+<% if @comment.errors.present? %>
+	<% @comment.errors.full_messages.each do |msg| %>
+		$('.comment-errors').html('<%= j msg %>');
+	<% end %>
+<% else %>
+	$('#new_comment_form').addClass('hidden');
+	$('#comments_list').html('<%= j  render partial: "comments/comment", collection: @commentable.comments %>');
+<% end %>
+
+<% if @comment.errors.present? %>
+	<% @comment.errors.full_messages.each do |msg| %>
+		$('.comment-errors').html('<%= j msg %>');
+	<% end %>
+<% else %>
+	$('#new_comment_form2').addClass('hidden');
+	$('#comments_list2').html('<%= j  render partial: "comments/comment", collection: @commentable.comments %>');
+<% end %>
+
+
+

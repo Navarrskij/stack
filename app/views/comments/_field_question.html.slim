@@ -1,0 +1,9 @@
+.hidden#new_comment_form
+ 	= form_for [commentable, Comment.new], remote: true do |f| 
+    	= errors_for @comment
+    	.field
+    		= f.hidden_field :commentable_type, value: commentable.class.to_s
+      	= f.label :body
+      	.comment-errors
+      	= f.text_area :body 
+      	= f.submit "Create Comment"

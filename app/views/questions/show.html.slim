@@ -1,23 +1,43 @@
 .question
-div id='question_= @question.id'
-
-  h4 Title:
+div id = "@question_#{ @question.id }"
+  ="Title:" 
+  br
   = @question.title
-
-  h4 Text:
+  br
+  ="Text:"
+  br
   = @question.body
-
-  h4 Attachments:
-  - @question.attachments.each do |a| 
-    div id='attachment_= a.id'
-      = link_to a.file.identifier, a.file.url 
-        - if current_user && current_user.author_of?(a.attachmentable) 
-        = link_to 'del', attachment_path(a), method: :delete, remote: true
+  br
+    ="Attachments:"
+    - @question.attachments.each do |a| 
+      div id ="attachment_#{a.id}"
+        = link_to a.file.identifier, a.file.url 
+          - if current_user && current_user.author_of?(a.attachmentable) 
+          = link_to 'del', attachment_path(a), method: :delete, remote: true
  
   - if current_user && current_user.author_of?(@question)
-    td = link_to 'Delete', question_path(@question), method: :delete
-    td = link_to 'Edit', edit_question_path(@question), remote: true
+      td = link_to 'Delete', question_path(@question), method: :delete
+      td = link_to 'Edit', edit_question_path(@question), remote: true
+  br
+  .q_rating.btn-group role="group"
+    -if user_signed_in? && !current_user.author_of?(@question)
+      = link_to vote_up_question_path(@question), method: :patch, remote: true, data: { type: :json, container: "@question_#{ @question.id }" }, class: 'vote-link-question btn btn-default'
+        do
+        i.glyphicon.glyphicon-thumbs-up
+    button type="button" class="btn btn-default value"
+      = @question.rating
+    -if user_signed_in? && !current_user.author_of?(@question)
+      = link_to vote_down_question_path(@question), method: :patch, remote: true, data: { type: :json, container: "@question_#{ @question.id }" }, class: 'vote-link-question btn btn-default'
+        do
+        i.glyphicon.glyphicon-thumbs-down
+  .vote-erorr
+  - if user_signed_in? 
+    = link_to "add Comment", '#', id: 'new_comment_link'
+    = render partial: 'comments/field_question', locals: {commentable: @question}
+  br
+  ="Comments:"
+  #comments_list
+    = render partial: 'comments/comment', collection: @question.comments
 .answers
-  = render @question.answers
-
-  = render partial: 'form_answer' 
+    = render @question.answers
+    = render partial: 'form_answer' 

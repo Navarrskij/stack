@@ -1,0 +1,40 @@
+div id = "answer_#{ answer.id }"
+  = answer.body
+    ="Attachments:"
+  -answer.attachments.each do |a| 
+    div id ="attachment_#{a.id}"
+      = link_to a.file.identifier, a.file.url
+      - if current_user && current_user.author_of?(a.attachmentable) 
+      br
+        = link_to 'del', attachment_path(a), method: :delete, remote: true 
+
+  -if current_user && current_user.author_of?(answer)
+    = link_to 'Delete', answer_path(answer), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
+    br
+    = link_to 'Edit', edit_answer_path(answer), remote: true
+
+  -if current_user && current_user.author_of?(answer.question)
+    -if answer.best
+      ="Answer is the best"
+    -else
+      = link_to 'Make best', best_answer_path(answer), remote: true, method: :patch
+
+  br
+  .a-rating.btn-group role="group" 
+    - if user_signed_in? && !current_user.author_of?(answer)
+      = link_to vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json, container: "answer_#{ answer.id }" }, class: 'vote-link-answer btn btn-default' do
+        i.glyphicon.glyphicon-thumbs-up
+    button type="button" class="btn btn-default a-value"
+      = answer.rating
+    - if user_signed_in? && !current_user.author_of?(answer)
+      = link_to vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json, container: "answer_#{ answer.id }" }, class: 'vote-link-answer  btn btn-default' do
+        i.glyphicon.glyphicon-thumbs-down
+  .a-vote-erorr
+  .comment_answer
+    - if user_signed_in?
+      = link_to "add Comment", '#', id: 'new_comment2_link'
+      = render partial: 'comments/field_answer', locals: {commentable: answer}
+  br
+  ="Comments:"
+  #comments_list2
+    = render partial: 'comments/comment', collection: answer.comments
