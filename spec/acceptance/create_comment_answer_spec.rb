@@ -37,10 +37,36 @@ feature 'Create comment for answer', %q{
     expect(page).to have_content "Body can't be blank"
   end
 
-    scenario 'Non-authenticated user create question', js: true do
+    scenario 'Non-authenticated user create comment', js: true do
 
     visit question_path(question)
 
     expect(page).to_not have_content 'add Coment'
+  end
+
+  scenario "comment appears on another user's page", js: true do
+    Capybara.using_session('user') do
+      sign_in(user)
+      visit question_path(question)
+    end
+ 
+    Capybara.using_session('guest') do
+      visit question_path(question)
+    end
+
+    Capybara.using_session('user') do
+      within '.comment_answer' do
+        click_link 'add Comment'
+        fill_in 'Body', with: 'Comment 1 for answer'
+        click_on 'Create Comment'
+      end
+
+      expect(page).to have_content 'Comment 1 for answer'
+    end
+
+    Capybara.using_session('guest') do
+      
+      expect(page).to have_content 'Comment 1 for answer'
+    end
   end
 end

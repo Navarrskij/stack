@@ -31,12 +31,14 @@ gem 'jbuilder', '~> 2.5'
 gem 'pg'
 gem 'annotate'
 gem 'rails-controller-testing'
+gem 'skim'
 gem 'slim-rails'
 gem 'devise'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
+gem 'gon'
 
 
 group :development, :test do

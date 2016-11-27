@@ -12,6 +12,7 @@ class QuestionsController < ApplicationController
   def show
     @new_answer = Answer.new(question: @question)
     @new_answer.attachments.build
+    gon.question_user_id = @question.user_id
   end
 
   def new
@@ -54,6 +55,7 @@ class QuestionsController < ApplicationController
 
   def load_question
      @question = Question.find(params[:id])
+     gon.question_id = @question.id
   end
 
   def questions_params

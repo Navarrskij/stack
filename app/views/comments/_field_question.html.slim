@@ -1,4 +1,4 @@
-.hidden#new_comment_form
+.hidden id="comments_form_for_#{commentable.class}_#{commentable.id}"
  	= form_for [commentable, Comment.new], remote: true do |f| 
     	= errors_for @comment
     	.field

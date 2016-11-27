@@ -32,9 +32,9 @@ div id = "answer_#{ answer.id }"
   .a-vote-erorr
   .comment_answer
     - if user_signed_in?
-      = link_to "add Comment", '#', id: 'new_comment2_link'
-      = render partial: 'comments/field_answer', locals: {commentable: answer}
+      = link_to "add Comment", '#', data: { target: "comments_form_for_#{answer.class}_#{answer.id}", behaviour: "new_comment_form_link" }
+      = render partial: 'comments/field_question', locals: {commentable: answer}
   br
   ="Comments:"
-  #comments_list2
+  div id="comments_list_for_#{answer.class}_#{answer.id}"
     = render partial: 'comments/comment', collection: answer.comments

@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
 		before_action :authenticate_user!
     before_action :set_commentable
+    after_action :publish_comment
  
   def create
     @comment = @commentable.comments.build(comment_params)
@@ -23,15 +24,12 @@ class CommentsController < ApplicationController
     end
   end
 
-  #def model_klass
-    #commentable_type.classify.constantize
-  #end
-
-  #def commentable_type
-    #params[:comment][:commentable_type].downcase
-  #end
-
-  #def set_commentable
-    #@commentable = model_klass.find(params["#{commentable_type}_id"])
-  #end
+  def publish_comment
+    return if @comment.errors.any?
+    question_id = (@comment.commentable_type == 'Question') ? @comment.commentable_id : @comment.commentable.question_id
+    ActionCable.server.broadcast("comments_#{question_id}",
+      ApplicationController.render(json: { comment: @comment, commentable_type: @commentable.class.name,
+      commentable_id: @commentable.id })
+    )
+  end
 end

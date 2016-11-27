@@ -1,9 +1,4 @@
-$(document).on("click", '#new_comment_link', function(e, data, status, xhr) {
+$(document).on("click", "[data-behaviour='new_comment_form_link']", function(e, data, status, xhr) {
 	e.preventDefault();
-	$('#new_comment_form').removeClass('hidden')
-})
-
-$(document).on("click", '#new_comment2_link', function(e, data, status, xhr) {
-	e.preventDefault();
-	$('#new_comment_form2').removeClass('hidden')
+	$("#" + $(e.target).data('target')).removeClass('hidden');
 })
