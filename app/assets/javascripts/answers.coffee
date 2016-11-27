@@ -8,10 +8,5 @@ App.cable.subscriptions.create("AnswersChannel", {
   ,
   received: (data) ->
     data = $.parseJSON(data)
-    
-    $('.answers').append(JST["templates/answer"]({
-       answer:             data['answer'],
-       answer_attachments: data['answer_attachments'],
-       answer_rating:      data['answer_rating']
-     }))
+    $('.answers').append(JST["templates/answer"](data)) 
 })

@@ -47,7 +47,7 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
     ActionCable.server.broadcast( "answers_#{@question.id}",
-      ApplicationController.render(json: { answer: @answer.as_json.merge(rating: @answer.rating), attachments: @answer.attachments})
+      ApplicationController.render(json: { answer: @answer.as_json.merge(rating: @answer.rating), @answer.as_json.merge(attachments: @answer.attachments)})
     )
   end
 end

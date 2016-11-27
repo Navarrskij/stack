@@ -7,6 +7,8 @@ App.cable.subscriptions.create("CommentsChannel", {
     question_id = $(".question").data("questionId")
     if question_id
       @perform "follow", question_id: question_id
+    else
+      @perform 'unfollow'
   ,
   received: (data) ->
     data = $.parseJSON(data)

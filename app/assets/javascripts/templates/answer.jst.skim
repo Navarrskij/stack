@@ -28,17 +28,14 @@ div id = "answer_#{ @answer.id }"
         i.glyphicon.glyphicon-thumbs-down
   .a-vote-erorr
   .comment_answer
-
   - if gon.user_id
-      a.comment_answer href="#" add Comment
-         a form.="new_comment" id="new_comment" action="/answers/#{@answer.id}/comments"  
-          accept-charset="UTF-8" data-remote="true" method="post" 
-          input name="utf8" type="hidden" value="✓"
-          .field
-            input value="Answer" type="hidden" name="comment[commentable_type]" id="comment_commentable_type">
-          label for="comment_body" Body
-          .comment-errors
-          textarea name="comment[body]" id="comment_body"
-          input type="submit" name="commit" value="Create Comment" data-disable-with="Create Comment"
+    a.comment_answer href="#" add Comment
+      a form="new_comment" id="new_comment" action="/answers/#{@answer.id}/comments"accept-charset="UTF-8" data-remote="true" method="post" input name="utf8" type="hidden" value="✓"
+      .field
+      input value="Answer" type="hidden" name="comment[commentable_type]" id="comment_commentable_type">
+      label for="comment_body" Body
+      .comment-errors
+      textarea name="comment[body]" id="comment_body"
+      input type="submit" name="commit" value="Create Comment" data-disable-with="Create Comment"
 
 
