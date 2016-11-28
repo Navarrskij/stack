@@ -14,8 +14,8 @@ feature 'Vote question', %q{
     sign_in(user)
     visit question_path(question)
 
-    click_on 'vote up'
-
+    
+    Capybara.page.find('.glyphicon.glyphicon-thumbs-up').click
     within '.value' do
       expect(page).to have_content '1'
     end
@@ -25,7 +25,7 @@ feature 'Vote question', %q{
     sign_in(user)
     visit question_path(question)
 
-    click_on 'vote down'
+    Capybara.page.find('.glyphicon.glyphicon-thumbs-down').click
 
     within '.value' do
       expect(page).to have_content '-1'
@@ -35,20 +35,20 @@ feature 'Vote question', %q{
   scenario 'Non-authenticated user votes', js: true do
     visit question_path(question)
     
-    expect(page).to_not have_content 'vote down'
-    expect(page).to_not have_content 'vote up'
+    expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-down')
+    expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-up')
   end
 
   scenario 'User can not vote twice', js: true do
     sign_in(user)
     visit question_path(question)
 
-    click_on 'vote down'
+    Capybara.page.find('.glyphicon.glyphicon-thumbs-down').click
     within '.value' do
       expect(page).to have_content '1'
     end
 
-    click_on 'vote down'
+    Capybara.page.find('.glyphicon.glyphicon-thumbs-down').click
 
     within '.value' do
       expect(page).to have_content '1'
@@ -59,13 +59,13 @@ feature 'Vote question', %q{
     sign_in(user)
     visit question_path(question)
 
-    click_on 'vote up'
+    Capybara.page.find('.glyphicon.glyphicon-thumbs-up').click
 
     within '.value' do
       expect(page).to have_content '1'
     end
     
-    click_on 'vote down'
+    Capybara.page.find('.glyphicon.glyphicon-thumbs-down').click
 
     within '.value' do
       expect(page).to have_content '-1'
@@ -76,7 +76,7 @@ feature 'Vote question', %q{
     sign_in(user)
     visit question_path(my_question)
 
-    expect(page).to_not have_content 'vote down'
-    expect(page).to_not have_content 'vote up'
+    expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-down')
+    expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-up')
   end
 end
