@@ -1,3 +1,12 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+App.cable.subscriptions.create("AnswersChannel", {
+  connected: ->
+    question_id = $('.question').data('questionId')
+    if question_id
+      @perform 'follow', question_id: question_id
+    else
+      @perform 'unfollow'
+  ,
+  received: (data) ->
+    data = $.parseJSON(data)
+    $('.answers').append(JST["templates/answer"](data)) 
+})

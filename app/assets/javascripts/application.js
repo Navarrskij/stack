@@ -11,10 +11,11 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap-sprockets
 //= require jquery_ujs
 //= require jquery.remotipart
+//= require skim
 //= require cocoon
-//= require turbolinks
+//= require bootstrap-sprockets
+//= require cable
 //= require_tree .
 

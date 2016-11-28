@@ -1,0 +1,11 @@
+<% if @comment.errors.present? %>
+	<% @comment.errors.full_messages.each do |msg| %>
+		$('.comment-errors').html('<%= j msg %>');
+	<% end %>
+<% else %>
+	$('#comments_form_for_<%= @comment.commentable_type %>_<%= @comment.commentable_id %>').addClass('hidden');
+	$('#comments_list_for_<%= @comment.commentable_type %>_<%= @comment.commentable_id %>').html('<%= j  render partial: "comments/comment", collection: @commentable.comments %>');
+<% end %>
+
+
+
