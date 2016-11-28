@@ -3,52 +3,38 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, except: [:new, :create, :index]
-  after_action :publish_question, only: [:create]
+  after_action :publish_question, only: :create
+  before_action :build_answer, only: :show
+  before_action :gon_question_user, only: :show
+
+  respond_to :js, only: :update
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @new_answer = Answer.new(question: @question)
-    @new_answer.attachments.build
-    gon.question_user_id = @question.user_id
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with (@question = Question.new)
   end
 
   def edit
   end
 
   def create
-    @question = current_user.questions.build(questions_params)
-    if @question.save
-      redirect_to questions_path, notice: "Question successfully created"
-    else
-      render :new
-    end
+    respond_with (@question = Question.create(questions_params.merge(user: current_user)))
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(questions_params)
-    else
-      render :edit
-    end
+    @question.update(questions_params) if current_user.author_of?(@question)
+    respond_with @question
   end
 
   def destroy
-    
-    if current_user.author_of?(@question)
-      @question.destroy 
-      flash[:notice] = "Question is successfully deleted"
-    else
-      flash[:notice] = "Permission denide"
-    end
-      redirect_to questions_path
+    respond_with(@question.destroy) if current_user.author_of?(@question)
   end 
 
   private
@@ -58,8 +44,16 @@ class QuestionsController < ApplicationController
      gon.question_id = @question.id
   end
 
+  def build_answer
+    @new_answer = Answer.new(question: @question)
+  end
+
   def questions_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+  end
+
+  def gon_question_user
+    gon.question_user_id = @question.user_id
   end
 
   def publish_question
