@@ -2,12 +2,11 @@ class CommentsController < ApplicationController
 		before_action :authenticate_user!
     before_action :set_commentable
     after_action :publish_comment
+
+    respond_to :js
  
   def create
-    @comment = @commentable.comments.build(comment_params)
-    @comment.user = current_user
-    @comment.save
- 
+    respond_with(@comment = @commentable.comments.create(comment_params.merge(user: current_user)))
   end
 
   private

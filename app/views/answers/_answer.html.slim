@@ -5,8 +5,7 @@ div id = "answer_#{ answer.id }"
     div id ="attachment_#{a.id}"
       = link_to a.file.identifier, a.file.url
       - if current_user && current_user.author_of?(a.attachmentable) 
-      br
-        = link_to 'del', attachment_path(a), method: :delete, remote: true 
+        br = link_to 'del', attachment_path(a), method: :delete, remote: true 
 
   -if current_user && current_user.author_of?(answer)
     = link_to 'Delete', answer_path(answer), method: :delete, remote: true, data: { confirm: 'Are you sure?' }

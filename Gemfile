@@ -39,6 +39,7 @@ gem 'remotipart'
 gem 'cocoon'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'gon'
+gem 'responders', '~> 2.0'
 
 
 group :development, :test do

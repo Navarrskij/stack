@@ -16,7 +16,7 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.a-rating' do
-      click_on 'vote up'
+      Capybara.page.find('.glyphicon.glyphicon-thumbs-up').click
 
       expect(page).to have_content '1'
     end
@@ -27,7 +27,7 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.a-rating' do
-      click_on 'vote down'
+      Capybara.page.find('.glyphicon.glyphicon-thumbs-down').click
 
       expect(page).to have_content '-1'
     end
@@ -36,8 +36,8 @@ feature 'Vote answer', %q{
   scenario 'Non-authenticated user votes', js: true do
     visit question_path(question)
    
-    expect(page).to_not have_content 'vote down'
-    expect(page).to_not have_content 'vote up'
+    expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-down')
+    expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-up')
   end
 
   scenario 'User can not vote twice', js: true do
@@ -45,9 +45,9 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.a-rating' do
-      click_on 'vote up'
+      Capybara.page.find('.glyphicon.glyphicon-thumbs-up').click
       expect(page).to have_content '1'
-      click_on 'vote up'
+      Capybara.page.find('.glyphicon.glyphicon-thumbs-up').click
       expect(page).to have_content '1'
     end
   end
@@ -57,9 +57,9 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.a-rating' do
-      click_on 'vote up'
+      Capybara.page.find('.glyphicon.glyphicon-thumbs-up').click
       expect(page).to have_content '1'
-      click_on 'vote down'
+      Capybara.page.find('.glyphicon.glyphicon-thumbs-down').click
       expect(page).to have_content '-1'
     end
   end
@@ -69,8 +69,8 @@ feature 'Vote answer', %q{
     visit question_path(question)
 
     within '.a-rating' do
-      expect(page).to_not have_content 'vote down'
-      expect(page).to_not have_content 'vote up'
+      expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-down')
+      expect(page).to_not have_selector('glyphicon.glyphicon-thumbs-up')
     end
   end
 end
