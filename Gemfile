@@ -42,7 +42,8 @@ gem 'gon'
 gem 'responders', '~> 2.0'
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'omniauth-twitter'
+gem 'omniauth-twitter', '~> 1.2.1'
+gem 'high_voltage'
 
 
 group :development, :test do
