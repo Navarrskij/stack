@@ -25,6 +25,7 @@ RSpec.describe User do
   it {should have_many(:answers).dependent(:destroy)}
   it {should have_many(:questions).dependent(:destroy)}
   it {should have_many(:votes)}
+  it {should have_many(:authorizations).dependent(:destroy)}
 
   describe 'user is author?' do
     let(:author) { create(:user) }
