@@ -37,7 +37,7 @@ RSpec.describe User do
        it { expect(author).to be_author_of(question) }
     end
 
-        context "user is not question author" do
+    context "user is not question author" do
       it { expect(user2).to_not be_author_of(question) }
     end
   end
@@ -45,15 +45,21 @@ RSpec.describe User do
   describe '.find for oauth' do
     let!(:user) { create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '1234567') }
+
     context 'user already has authorization' do
+
       it 'return the user' do
         user.authorizations.create(provider: 'facebook', uid: '1234567')
         expect(User.find_for_oauth(auth)).to eq user
       end
     end
+    
     context 'user has not authorization' do
+
       context 'user already exist' do
+
         let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '1234567', info: { email: user.email }) }
+
         it 'does not create new user' do
           expect{ User.find_for_oauth(auth) }.to_not change(User, :count)
         end
@@ -71,8 +77,11 @@ RSpec.describe User do
           expect( User.find_for_oauth(auth) ).to eq user
         end
       end
+
       context 'user does not exists' do
+
         let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '1234567', info: {email: 'new@user.com'} ) }
+
         it 'creates new user' do
           expect{ User.find_for_oauth(auth) }.to change(User, :count).by(1)
         end

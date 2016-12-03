@@ -27,7 +27,7 @@ feature 'User sign in account', %q{
     mock_auth_facebook_invalid
     click_on "Sign in with Facebook"
 
-    expect(page).to have_content 'Could not authenticate you from Facebook'
+    expect(page).to have_content 'Authentication failed. Try again or register'
   end
 
   scenario "Invalid Twitter account" do
@@ -35,6 +35,6 @@ feature 'User sign in account', %q{
     mock_auth_twitter_invalid
     click_on "Sign in with Twitter"
 
-    expect(page).to have_content 'Could not authenticate you from Twitter'
+    expect(page).to have_content 'Authentication failed. Try again or register'
   end
 end
