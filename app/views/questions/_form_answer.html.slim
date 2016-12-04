@@ -5,7 +5,7 @@ h3 Add answer:
   .field
     = f.label :body
     .answer-errors
-    = f.text_area :body 
+    = f.text_area :body
   h3 Attachments
   #attachments
     = f.fields_for :attachments, @new_answer.attachments.build do |a|

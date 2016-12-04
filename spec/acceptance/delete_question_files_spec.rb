@@ -16,7 +16,6 @@ feature 'Delete questions files', %q{
     fill_in 'Body', with: 'text text text'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Create Question'
-    click_on 'Show'
   end
  
   scenario "Author delete attach file", js: true do
