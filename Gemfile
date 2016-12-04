@@ -40,6 +40,10 @@ gem 'cocoon'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'gon'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter', '~> 1.2.1'
+gem 'high_voltage'
 
 
 group :development, :test do
@@ -47,9 +51,9 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'capybara'
+  gem 'capybara', '~> 2.10', '>= 2.10.1'
   gem 'database_cleaner'
-  gem 'capybara-webkit'
+  gem 'capybara-webkit', '~> 1.1.0'
   
 end
 
