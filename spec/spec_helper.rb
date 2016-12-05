@@ -97,6 +97,7 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 require 'shoulda-matchers'
+require 'cancan/matchers'
 
 require "bundler/setup"
 ::Bundler.require(:default, :test)

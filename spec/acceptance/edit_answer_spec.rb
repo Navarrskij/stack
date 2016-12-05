@@ -16,9 +16,12 @@ feature 'Edit answer', %q{
     visit question_path(question)
     within '.answers' do
       click_link 'Edit'
-      fill_in 'Body', with: 'edited answer'
-      click_on 'Save'
-
+      within '.answer-edit' do
+        fill_in 'Body', with: 'edited answer'
+        click_on 'Save'
+      end
+    end
+    within '.a-answer' do
       expect(page).to_not have_content answer.body
       expect(page).to have_content 'edited answer'
       expect(page).to_not have_selector 'textarea'
@@ -34,7 +37,7 @@ feature 'Edit answer', %q{
     sign_in(user2)
     visit question_path(question)
     
-    expect(page).to_not have_link 'edit'
+    expect(page).to_not have_link 'Edit'
   end
     
   
