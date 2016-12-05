@@ -6,7 +6,7 @@ class AttachmentsController < ApplicationController
 
   authorize_resource
 
-	def destroy
+  def destroy
     respond_with(@attachment.destroy)
   end
 
