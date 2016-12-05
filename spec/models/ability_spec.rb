@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Ability, type: :model do
 
-	subject(:ability) { Ability.new(user) }
+	{subject(:ability) { Ability.new(user) }
 
 	describe 'for quest' do
-		let(:user) {nil}
+		let(:user) { nil }
 
 		it { should be_able_to :read, Question }
 		it { should be_able_to :read, Answer }
@@ -42,24 +42,24 @@ RSpec.describe Ability, type: :model do
 		it { should be_able_to :destroy, author_question }
 		it { should_not be_able_to :destroy, other_question }
 		it { should be_able_to :destroy, author_answer }
-		it { should_not be_able_to :destroy, other_answer }
+		it { should_not be_able_to :destroy, other_answer }}
 
 		it { should be_able_to :destroy, author_question.attachments.build }
-    it { should_not be_able_to :destroy, other_question.attachments.build }
-    it { should be_able_to :destroy, author_answer.attachments.build }
-    it { should_not be_able_to :destroy, other_answer.attachments.build }
+	  it { should_not be_able_to :destroy, other_question.attachments.build }
+	  it { should be_able_to :destroy, author_answer.attachments.build }
+	  it { should_not be_able_to :destroy, other_answer.attachments.build }
 
-    it { should be_able_to :vote_up, other_question }
-    it { should_not be_able_to :vote_up, author_question }
-    it { should be_able_to :vote_up, other_answer }
-    it { should_not be_able_to :vote_up, author_answer }
+	  it { should be_able_to :vote_up, other_question }
+	  it { should_not be_able_to :vote_up, author_question }
+	  it { should be_able_to :vote_up, other_answer }
+	  it { should_not be_able_to :vote_up, author_answer }
 
-    it { should be_able_to :vote_down, other_question }
-    it { should_not be_able_to :vote_down, author_question }
-    it { should be_able_to :vote_down, other_answer }
-    it { should_not be_able_to :vote_down, author_answer }
+	  it { should be_able_to :vote_down, other_question }
+	  it { should_not be_able_to :vote_down, author_question }
+	  it { should be_able_to :vote_down, other_answer }
+	  it { should_not be_able_to :vote_down, author_answer }
 
-    it { should be_able_to :best, create(:answer, question: author_question) }
-    it { should_not be_able_to :best, create(:answer, question: other_question) }
+	  it { should be_able_to :best, create(:answer, question: author_question) }
+	  it { should_not be_able_to :best, create(:answer, question: other_question) }
 	end
 end
