@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   	redirect_to root_url, alert: exception.message
   end
 
-  chech_authorization
+  check_authorization unless: :devise_controller?
 
   private
 

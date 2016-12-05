@@ -6,12 +6,14 @@ module Voted
   end
 
   def vote_up
+    authorize! :vote_up, @votable
     if @votable.vote_up(current_user)
       render json: {rating: @votable.rating}.to_json
     end
   end
 
   def vote_down
+    authorize! :vote_down, @votable
     if @votable.vote_down(current_user)
       render json: {rating: @votable.rating}.to_json
     end

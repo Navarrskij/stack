@@ -24,5 +24,13 @@ class Ability
     quest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user: user
+    can :destroy, [Question, Answer], user: user
+    can :destroy, [Attachment], attachmentable: { user: user }
+    can :destroy, [Comment], commentable: { user: user }
+    can :vote_up, [Question, Answer]
+    can :vote_down, [Question, Answer]
+    cannot :vote_up, [Question, Answer], user: user
+    cannot :vote_down, [Question, Answer], user: user
+    can :best, Answer, question: { user: user }
   end  
 end

@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
   respond_to :js
   respond_to :json, only: :best
 
+  authorize_resource
+
   def create
     respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
@@ -17,16 +19,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @answer.update(answer_params)
     respond_with(@answer)
   end
 
   def destroy
-    respond_with(@answer.destroy) if current_user.author_of?(@answer)
+    respond_with(@answer.destroy)
   end
 
   def best
-    @answer.best! if current_user.author_of?(@answer.question)
+    @answer.best!
     respond_with(@answer)
   end
 

@@ -12,13 +12,14 @@ div id = "question_#{ @question.id }"
     - @question.attachments.each do |a| 
       div id ="attachment_#{a.id}"
         = link_to a.file.identifier, a.file.url 
-        - if current_user && current_user.author_of?(a.attachmentable)
+        - if can? :destroy, a
           br 
           = link_to 'del', attachment_path(a), method: :delete, remote: true
  
-    - if current_user && current_user.author_of?(@question)
+    - if can? :destroy, @question
       = link_to 'Delete', question_path(@question), method: :delete
     br
+    - if can? :update, @question
       = link_to 'Edit', edit_question_path(@question), remote: true
 .answers
   = render @question.answers
