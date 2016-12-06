@@ -62,6 +62,7 @@ end
 group :test do
   gem 'shoulda-matchers', require: false
   gem 'launchy'
+  gem 'json_spec'
 end
 
 group :development do

@@ -20,5 +20,12 @@ Rails.application.routes.draw do
   root to: "questions#index"
   mount ActionCable.server => '/cable'
 
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+      end
+    end
+  end
 
 end
