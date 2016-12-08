@@ -45,6 +45,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter', '~> 1.2.1'
 gem 'high_voltage'
 gem 'cancancan'
+gem 'doorkeeper'
 
 
 group :development, :test do
@@ -61,6 +62,7 @@ end
 group :test do
   gem 'shoulda-matchers', require: false
   gem 'launchy'
+  gem 'json_spec'
 end
 
 group :development do

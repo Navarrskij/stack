@@ -61,5 +61,7 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :best, create(:answer, question: author_question) }
     it { should_not be_able_to :best, create(:answer, question: other_question) }
+
+    it { should be_able_to :me, User }
   end
 end
