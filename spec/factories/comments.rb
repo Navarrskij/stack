@@ -16,7 +16,12 @@ FactoryGirl.define do
     user
     sequence(:body, 1) { |n| "bodynew#{n}" }
     association :commentable, factory: :question
-	end
+  end
+  factory :answer_comment, class: 'Comment' do
+    user
+    sequence(:body, 1) { |n| "bodynew#{n}" }
+    association :commentable, factory: :answer
+    end
 	factory :comment2, class: 'Comment'  do
     user
     body nil
