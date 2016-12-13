@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :questions, concerns: [:votable] do
     resources :comments, only: :create
     resources :answers , shallow: true, concerns: [:votable] do
-    	patch 'best', on: :member
+      patch 'best', on: :member
       resources :comments, only: :create
     end
   end
@@ -25,7 +25,10 @@ Rails.application.routes.draw do
       resources :profiles do
         get :me, on: :collection
       end
+      resources :questions do
+        resources :answers, shallow: true
+      end
     end
   end
-
+  
 end
