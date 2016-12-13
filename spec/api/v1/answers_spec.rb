@@ -47,12 +47,12 @@ describe 'Answers API' do
     let(:url) { "/api/v1/answers/#{answer.id}" }
 
     context 'unauthorized' do
-      it 'renurn 410 status if there is not access_token' do
+      it 'renurn 401 status if there is not access_token' do
         get url, format: :json
         expect(response.status).to eq 401
       end
 
-      it 'renurn 410 status if there access_token is invalid' do
+      it 'renurn 401 status if there access_token is invalid' do
         get url, format: :json, access_token: '112332'
         expect(response.status).to eq 401
       end
