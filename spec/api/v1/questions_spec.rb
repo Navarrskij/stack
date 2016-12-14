@@ -2,17 +2,9 @@ require 'rails_helper'
 
 describe 'Questions API' do
   describe 'Get/index' do
-    context 'unauthorized' do
-      it 'renurn 410 status if there is not access_token' do
-        get '/api/v1/questions', format: :json
-        expect(response.status).to eq 401
-      end
+    let(:url_path) { "/api/v1/questions" }
 
-      it 'renurn 410 status if there access_token is invalid' do
-        get '/api/v1/questions', format: :json, access_token: '112332'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -20,7 +12,7 @@ describe 'Questions API' do
       let!(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
 
-      before { get '/api/v1/questions', format: :json, access_token: access_token.token }
+      before { get url_path, format: :json, access_token: access_token.token }
 
       it 'return 200 status' do
         expect(response).to be_success
@@ -52,24 +44,16 @@ describe 'Questions API' do
   end
 
   describe 'Get/list_questions' do
-    let(:url) { '/api/v1/questions/list_questions' }
-    context 'unauthorized' do
-      it 'renurn 410 status if there is not access_token' do
-        get '/api/v1/questions', format: :json
-        expect(response.status).to eq 401
-      end
+    let(:url_path) { '/api/v1/questions' }
+    
+    it_behaves_like "API Authenticable"
 
-      it 'renurn 410 status if there access_token is invalid' do
-        get '/api/v1/questions', format: :json, access_token: '112332'
-        expect(response.status).to eq 401
-      end
-    end
     context 'authorized' do
       let(:access_token) { create(:access_token) }
       let!(:questions) { create_list(:question, 2) }
       let!(:question) { questions.first }
 
-      before { get '/api/v1/questions', format: :json, access_token: access_token.token }
+      before { get url_path, format: :json, access_token: access_token.token }
 
       it 'return 200 status' do
         expect(response).to be_success
@@ -90,25 +74,16 @@ describe 'Questions API' do
 
   describe 'Get/show' do
     let!(:question) { create(:question) }
-    let(:url) { "/api/v1/questions/#{question.id}" }
-    context 'unauthorized' do
-      it 'renurn 410 status if there is not access_token' do
-        get url, format: :json
-        expect(response.status).to eq 401
-      end
+    let(:url_path) { "/api/v1/questions/#{question.id}" }
+   
+    it_behaves_like "API Authenticable"
 
-      it 'renurn 410 status if there access_token is invalid' do
-        get url, format: :json, access_token: '112332'
-        expect(response.status).to eq 401
-      end
-    end
     context 'authorized' do
       let(:access_token) { create(:access_token) }
       let!(:comment) { create(:comment, commentable: question) }
       let!(:attachment) { create(:question_attachment, attachmentable: question) }
-      let(:url) { "/api/v1/questions/#{question.id}" }
 
-      before { get url, format: :json, access_token: access_token.token }
+      before { get url_path, format: :json, access_token: access_token.token }
 
       it 'return 200 status' do
         expect(response).to be_success
@@ -155,40 +130,33 @@ describe 'Questions API' do
   end
 
   describe 'post/create' do
-    context 'unauthorized' do
-      it 'return 401 status if there is not access_token' do
-        post '/api/v1/questions', params: { question: attributes_for(:question), format: :json }
-        expect(response.status).to eq 401
-      end
+    let(:url_path) { "/api/v1/questions" }
+    let(:method) { :post }
 
-      it 'return 401 status if there access_token is invalid' do
-        post '/api/v1/questions', params: { question: attributes_for(:question), access_token: '112332', format: :json }
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
     let(:user) { create(:user) }
     let(:access_token) { create(:access_token, resource_owner_id: user.id) }
       context 'with valid attributes' do
         it 'returns 201 status code' do
-          post "/api/v1/questions", params: { format: :json, access_token: access_token.token, question: { title: 'question title', body: 'question body' } }
+          post url_path, params: { format: :json, access_token: access_token.token, question: { title: 'question title', body: 'question body' } }
           expect(response.status).to eq 201 
         end
 
         it 'save question in database' do
-          expect { post "/api/v1/questions", params: { format: :json, access_token: access_token.token, question: { title: 'question title', body: 'question body' } } }.to change(user.questions, :count).by(1)
+          expect { post url_path, params: { format: :json, access_token: access_token.token, question: { title: 'question title', body: 'question body' } } }.to change(user.questions, :count).by(1)
         end
       end
 
       context 'with invalid attributes' do
         it 'returns 422 status code' do
-          post "/api/v1/questions", params: { format: :json, access_token: access_token.token, question: { title: '', body: 'question body' } }
+          post url_path, params: { format: :json, access_token: access_token.token, question: { title: '', body: 'question body' } }
           expect(response.status).to eq 422
         end
 
         it 'does not save question in database' do
-          expect { post "/api/v1/questions", params: { format: :json, access_token: access_token.token, question: { title: '', body: 'question body' } } }.to_not change(user.questions, :count)
+          expect { post url_path, params: { format: :json, access_token: access_token.token, question: { title: '', body: 'question body' } } }.to_not change(user.questions, :count)
         end
       end
     end
