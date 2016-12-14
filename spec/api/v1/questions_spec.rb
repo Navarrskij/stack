@@ -80,9 +80,7 @@ describe 'Questions API' do
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
-      let!(:comment) { create(:comment, commentable: question) }
-      let!(:attachment) { create(:question_attachment, attachmentable: question) }
-
+     
       before { get url_path, format: :json, access_token: access_token.token }
 
       it 'return 200 status' do
@@ -99,33 +97,11 @@ describe 'Questions API' do
         end
       end
 
-      %w(id body created_at user_id).each do |attr|
-        it "question comment contains #{attr}" do
-          expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
-        end
-      end
+      let(:commentable) { question }
+      it_behaves_like "API Commentable"
 
-      it 'contains comment' do
-        expect(response.body).to have_json_size(1).at_path('question/comments')
-      end
-
-      %w(id created_at).each do |attr|
-        it "question attachment contains #{attr}" do
-          expect(response.body).to be_json_eql(attachment.send(attr.to_sym).to_json).at_path("question/attachments/0/#{attr}")
-        end
-      end
-
-        it 'contains attachment' do
-          expect(response.body).to have_json_size(1).at_path('question/attachments')
-        end
-
-      it "question attachment contains file name" do
-        expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path("question/attachments/0/name")
-      end
-
-      it "question attachment contains url path" do
-        expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("question/attachments/0/path")
-      end
+      let(:attachmentable) { question }
+      it_behaves_like "API Attachable"
     end
   end
 

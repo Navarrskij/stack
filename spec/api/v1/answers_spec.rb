@@ -32,8 +32,6 @@ describe 'Answers API' do
 
   describe 'Get/show' do
     let!(:answer) { create(:answer, question: question) }
-    let!(:comment) { create(:answer_comment, commentable: answer) }
-    let!(:attachment) { create(:answer_attachment, attachmentable: answer) }
     let(:url_path) { "/api/v1/answers/#{answer.id}" }
 
     it_behaves_like "API Authenticable"
@@ -57,33 +55,11 @@ describe 'Answers API' do
         end
       end
 
-      %w(id body created_at user_id).each do |attr|
-        it "answer comment contains #{attr}" do
-          expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("answer/comments/0/#{attr}")
-        end
-      end
+      let(:commentable) { answer }
+      it_behaves_like "API Commentable"
 
-      it 'contains comment' do
-        expect(response.body).to have_json_size(1).at_path('answer/comments')
-      end
-
-      %w(id created_at).each do |attr|
-        it "answer attachment contains #{attr}" do
-          expect(response.body).to be_json_eql(attachment.send(attr.to_sym).to_json).at_path("answer/attachments/0/#{attr}")
-        end
-      end
-
-        it 'contains attachment' do
-          expect(response.body).to have_json_size(1).at_path('answer/attachments')
-        end
-
-      it "answer attachment contains file name" do
-        expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path("answer/attachments/0/name")
-      end
-
-      it "answer attachment contains url path" do
-        expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("answer/attachments/0/path")
-      end
+      let(:attachmentable) { answer }
+      it_behaves_like "API Attachable"
     end
   end
 
