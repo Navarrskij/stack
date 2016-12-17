@@ -49,6 +49,10 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
+gem 'sidekiq'
+gem 'whenever'
+#gem 'delayed_job_active_record'
+gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git', require: nil
 
 
 group :development, :test do
