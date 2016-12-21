@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: :create
   before_action :build_answer, only: :show
   before_action :gon_question_user, only: :show
-
+ 
   respond_to :js, only: :update
 
   authorize_resource

@@ -27,6 +27,7 @@ class User < ApplicationRecord
   has_many :answers,  dependent: :destroy
   has_many :votes
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(object)
     object.user_id == id
@@ -52,6 +53,10 @@ class User < ApplicationRecord
     find_each.each do |user|
       DailyMailer.digest(user).deliver_later
     end
+  end
+
+  def subscribed?(question)
+    subscriptions.where(question: question).any?
   end
 end
 

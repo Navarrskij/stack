@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       patch 'best', on: :member
       resources :comments, only: :create
     end
+    resources :subscriptions, shallow: true
   end
 
   resources :attachments, only: :destroy

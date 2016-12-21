@@ -24,4 +24,18 @@ RSpec.describe Question, type: :model do
   it {should validate_presence_of :title}
   it {should validate_presence_of :body}
   it {should accept_nested_attributes_for :attachments}
+
+  describe 'Subscribe author' do
+    let!(:user) { create(:user) }
+    subject { build(:question, user: user) }
+
+    it 'should create new subscription after question create' do
+      expect(subject).to receive(:subscribe_author)
+      subject.save!
+    end
+
+    it 'should save subscription to db' do
+      expect { subject.save! }.to change(user.subscriptions, :count).by(1)
+    end
+  end
 end

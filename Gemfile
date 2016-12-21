@@ -63,6 +63,7 @@ group :development, :test do
   gem 'capybara', '~> 2.10', '>= 2.10.1'
   gem 'database_cleaner'
   gem 'capybara-webkit', '~> 1.1.0'
+  gem 'capybara-email'
   
 end
 
@@ -76,6 +77,7 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
   gem 'listen'
+  gem 'letter_opener'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   #gem 'spring'
   #gem 'spring-watcher-listen'

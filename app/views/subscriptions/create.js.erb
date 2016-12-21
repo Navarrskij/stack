@@ -1,0 +1,1 @@
+$('.subscribe').html("<%= j link_to 'unsubscribe', Subscription.find_by(user: current_user, question: @question), method: :delete, remote: true %>");
