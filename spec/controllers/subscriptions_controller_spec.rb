@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SubscriptionsController, type: :controller do
-	let(:question) { create(:question) }
+  let(:question) { create(:question) }
 
-	describe "POST create" do
+  describe "POST create" do
     sign_in_user
 
     it "subscribe to question" do
@@ -17,9 +17,9 @@ RSpec.describe SubscriptionsController, type: :controller do
   end
 
   describe "DELETE destroy" do
-    let!(:subscription) { create(:subscription, question: question) }
-    sign_in_user
-    before { subscription.update(user_id: @user.id) }
+  let!(:subscription) { create(:subscription, question: question) }
+  sign_in_user
+  before { subscription.update(user_id: @user.id) }
 
     it "can unsubscribe to question" do
       expect { delete :destroy, params: { id: subscription.id, format: :js } }.to change(question.subscriptions, :count).by(-1)

@@ -11,10 +11,9 @@
 #
 
 class Question < ApplicationRecord
-
-	after_create :subscribe_author
-
-	include Votable
+  
+  after_create :subscribe_author
+  include Votable
 
   belongs_to :user
   has_many :answers, dependent: :destroy
