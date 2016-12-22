@@ -34,6 +34,15 @@
           do
           i.glyphicon.glyphicon-thumbs-down
     .vote-erorr
+
+    .subscribe
+      - if current_user && current_user.subscribed?(@question)
+        = link_to 'unsubscribe', Subscription.find_by(user: current_user, question: @question),
+        method: :delete, remote: true
+      - else
+        - if can? :create, Subscription
+          = link_to 'subscribe', question_subscriptions_path(@question),
+          method: :post, remote: true
     .comments
     - if can? :create, Comment 
       = link_to "add Comment", '#', data: { target: "comments_form_for_#{@question.class}_#{@question.id}", behaviour: "new_comment_form_link" }

@@ -22,9 +22,9 @@ class Ability
 
   def user_abilities
     quest_abilities
-    can :create, [Question, Answer, Comment]
+    can :create, [Question, Answer, Comment, Subscription]
     can :update, [Question, Answer], user: user
-    can :destroy, [Question, Answer], user: user
+    can :destroy, [Question, Answer, Subscription], user: user
     can :destroy, [Attachment], attachmentable: { user: user }
     can :destroy, [Comment], commentable: { user: user }
     can :vote_up, [Question, Answer]

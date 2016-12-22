@@ -27,6 +27,7 @@ RSpec.describe User do
   it {should have_many(:questions).dependent(:destroy)}
   it {should have_many(:votes)}
   it {should have_many(:authorizations).dependent(:destroy)}
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   describe 'user is author?' do
     let(:author) { create(:user) }
@@ -103,6 +104,30 @@ RSpec.describe User do
           expect( authorization.uid ).to eq auth.uid
         end
       end
+    end
+  end
+
+  describe '.send_daily_digest' do
+    let(:users) { create_list(:user, 2) }
+ 
+    it 'should send daily digest to all users' do
+      users.each { |user| expect(DailyMailer).to receive(:digest).with(user).and_call_original }
+      User.send_daily_digest
+    end
+  end
+
+  describe 'subscribed?' do
+    let(:subscribed_user) { create(:user) }
+    let(:unsubscribed_user) { create(:user) }
+    let(:question) { create(:question) }
+    let!(:subscription) { create(:subscription, user: subscribed_user, question: question) }
+
+    context 'when user is subscribed' do
+      it { expect(subscribed_user).to be_subscribed(question) }
+    end
+
+    context 'when user is not subscribed' do
+      it { expect(unsubscribed_user).to_not be_subscribed(question) }
     end
   end
 end 

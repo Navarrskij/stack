@@ -26,6 +26,8 @@ RSpec.describe Ability, type: :model do
     let(:other_question) { create(:question, user: other) }
     let(:author_answer) { create(:answer, user: user) }
     let(:other_answer) { create(:answer, user: other) }
+    let(:author_subscription) { create(:subscription, user: user) }
+    let(:other_subscription) { create(:subscription, user: other) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -33,6 +35,7 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Subscription }
 
     it { should be_able_to :update, author_question }
     it { should_not be_able_to :update, other_question }
@@ -43,6 +46,8 @@ RSpec.describe Ability, type: :model do
     it { should_not be_able_to :destroy, other_question }
     it { should be_able_to :destroy, author_answer }
     it { should_not be_able_to :destroy, other_answer }
+    it { should be_able_to :destroy, author_subscription }
+    it { should_not be_able_to :destroy, other_subscription }
 
     it { should be_able_to :destroy, author_question.attachments.build }
     it { should_not be_able_to :destroy, other_question.attachments.build }
