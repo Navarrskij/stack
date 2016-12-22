@@ -24,10 +24,10 @@ class Answer < ApplicationRecord
   after_create :new_answer_notification
 
   def best!
-  	transaction do
-  		question.answers.update_all best: false
-  		update! best: true
-  	end
+    transaction do
+      question.answers.update_all best: false
+      update! best: true
+    end
   end
 
   def new_answer_notification
