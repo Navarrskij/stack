@@ -27,6 +27,6 @@ class Question < ApplicationRecord
 private
 
   def subscribe_author
-    subscriptions.create(user_id: self.user_id, question_id: id)
+    subscriptions.create(user: self.user)
   end
 end
