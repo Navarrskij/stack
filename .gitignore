@@ -21,6 +21,9 @@
 /config/secrets.yml
 .idea
 /public/uploads
+dump.rdb
+/config/*.sphinx.conf
+/db/sphinx
 
 # Ignore Byebug command history file.
 .byebug_history

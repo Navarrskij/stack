@@ -30,6 +30,8 @@ class Answer < ApplicationRecord
   	end
   end
 
+private
+
   def new_answer_notification
     NewAnswerJob.perform_later self
   end
