@@ -11,6 +11,15 @@ RSpec.configure do |config|
 	config.include AcceptanceHelper, type: :feature
   config.include OmniauthMacros, type: :feature
   OmniAuth.config.test_mode = true
+    config.include SphinxHelpers, type: :feature
+
+  config.before(:suite) do
+    # Ensure sphinx directories exist for the test environment
+    ThinkingSphinx::Test.init
+    # Configure and start Sphinx, and automatically
+    # stop Sphinx at the end of the test suite.
+    ThinkingSphinx::Test.start_with_autostop
+  end
 
 	config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -28,3 +37,4 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
