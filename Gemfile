@@ -55,9 +55,10 @@ gem 'whenever'
 gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git', require: nil
 gem 'mysql2'
 gem 'thinking-sphinx'
-gem 'dotenv'
-gem 'dotenv-deployment', require: 'dotenv/deployment'
+#gem 'dotenv'
+#gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
+gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
 
 group :development, :test do
@@ -87,6 +88,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   #gem 'spring'
   #gem 'spring-watcher-listen'
