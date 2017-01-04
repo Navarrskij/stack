@@ -59,6 +59,7 @@ gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
+gem 'capistrano-passenger'
 
 
 group :development, :test do
