@@ -60,6 +60,7 @@ gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem 'capistrano-passenger'
+gem 'unicorn'
 
 
 group :development, :test do
@@ -90,6 +91,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   #gem 'spring'
   #gem 'spring-watcher-listen'
