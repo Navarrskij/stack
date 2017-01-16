@@ -61,6 +61,7 @@ gem 'therubyracer'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem 'capistrano-passenger'
 gem 'unicorn'
+gem 'redis-rails'
 
 
 group :development, :test do
