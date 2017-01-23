@@ -1,10 +1,12 @@
 div id = "answer_#{ answer.id }"
   .a-answer
+  - cache answer do
     = answer.body
       ="Attachments:"
     -answer.attachments.each do |a| 
       div id ="attachment_#{a.id}"
-        = link_to a.file.identifier, a.file.url
+        - cache a do
+          = link_to a.file.identifier, a.file.url
         - if can? :destroy, a
           br = link_to 'del', attachment_path(a), method: :delete, remote: true 
 

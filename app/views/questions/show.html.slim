@@ -1,56 +1,58 @@
-.question data={question_id: @question.id}
-  div id = "question_#{ @question.id }"
-    ="Title:" 
-    br
-    = @question.title
-    br
-    ="Text:"
-    br
-    = @question.body
-    br
-      ="Attachments:"
-      - @question.attachments.each do |a| 
-        div id ="attachment_#{a.id}"
-          = link_to a.file.identifier, a.file.url 
-          - if can? :destroy, a
-            br 
-            = link_to 'del', attachment_path(a), method: :delete, remote: true
-      - if can? :destroy, @question
-        br
-        = link_to 'Delete', question_path(@question), method: :delete
-      - if can? :update, @question
-        br
-        = link_to 'Edit', edit_question_path(@question), remote: true
-    br
-    .q_rating.btn-group role="group"
-      - if can? :vote_up, @question
-        = link_to vote_up_question_path(@question), method: :patch, remote: true, data: { type: :json, container: "question_#{ @question.id }" }, class: 'vote-link-question btn btn-default'
-          do
-          i.glyphicon.glyphicon-thumbs-up
-      button type="button" class="btn btn-default value"
-        = @question.rating
-      - if can? :vote_down, @question
-        = link_to vote_down_question_path(@question), method: :patch, remote: true, data: { type: :json, container: "question_#{ @question.id }" }, class: 'vote-link-question btn btn-default'
-          do
-          i.glyphicon.glyphicon-thumbs-down
-    .vote-erorr
+- cache @question do
+  .question data={question_id: @question.id}
+    div id = "question_#{ @question.id }"
+      ="Title:" 
+      br
+      = @question.title
+      br
+      ="Text:"
+      br
+      = @question.body
+      br
+        ="Attachments:"
+        - @question.attachments.each do |a| 
+          div id ="attachment_#{a.id}"
+            - cache a do
+              = link_to a.file.identifier, a.file.url 
+            - if can? :destroy, a
+              br 
+              = link_to 'del', attachment_path(a), method: :delete, remote: true
+        - if can? :destroy, @question
+          br
+          = link_to 'Delete', question_path(@question), method: :delete
+        - if can? :update, @question
+          br
+          = link_to 'Edit', edit_question_path(@question), remote: true
+      br
+      .q_rating.btn-group role="group"
+        - if can? :vote_up, @question
+          = link_to vote_up_question_path(@question), method: :patch, remote: true, data: { type: :json, container: "question_#{ @question.id }" }, class: 'vote-link-question btn btn-default'
+            do
+            i.glyphicon.glyphicon-thumbs-up
+        button type="button" class="btn btn-default value"
+          = @question.rating
+        - if can? :vote_down, @question
+          = link_to vote_down_question_path(@question), method: :patch, remote: true, data: { type: :json, container: "question_#{ @question.id }" }, class: 'vote-link-question btn btn-default'
+            do
+            i.glyphicon.glyphicon-thumbs-down
+      .vote-erorr
 
-    .subscribe
-      - if current_user && current_user.subscribed?(@question)
-        = link_to 'unsubscribe', Subscription.find_by(user: current_user, question: @question),
-        method: :delete, remote: true
-      - else
-        - if can? :create, Subscription
-          = link_to 'subscribe', question_subscriptions_path(@question),
-          method: :post, remote: true
-    .comments
-    - if can? :create, Comment 
-      = link_to "add Comment", '#', data: { target: "comments_form_for_#{@question.class}_#{@question.id}", behaviour: "new_comment_form_link" }
-      = render partial: 'comments/field_question', locals: {commentable: @question}
-    br
-    ="Comments:"
-    div id="comments_list_for_#{@question.class}_#{@question.id}"
-      = render partial: 'comments/comment', collection: @question.comments
-.answers data-question-id="#{@question.id}"
-      = render @question.answers
-      = render partial: 'form_answer' 
+      .subscribe
+        - if current_user && current_user.subscribed?(@question)
+          = link_to 'unsubscribe', Subscription.find_by(user: current_user, question: @question),
+          method: :delete, remote: true
+        - else
+          - if can? :create, Subscription
+            = link_to 'subscribe', question_subscriptions_path(@question),
+            method: :post, remote: true
+      .comments
+      - if can? :create, Comment 
+        = link_to "add Comment", '#', data: { target: "comments_form_for_#{@question.class}_#{@question.id}", behaviour: "new_comment_form_link" }
+        = render partial: 'comments/field_question', locals: {commentable: @question}
+      br
+      ="Comments:"
+      div id="comments_list_for_#{@question.class}_#{@question.id}"
+        = render partial: 'comments/comment', collection: @question.comments
+  .answers data-question-id="#{@question.id}"
+        = render @question.answers
+        = render partial: 'form_answer' 
