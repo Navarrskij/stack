@@ -3,7 +3,6 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, except: [:new, :create, :index]
-  after_action :publish_question, only: :create
   before_action :build_answer, only: :show
   before_action :gon_question_user, only: :show
  
@@ -56,15 +55,5 @@ class QuestionsController < ApplicationController
 
   def gon_question_user
     gon.question_user_id = @question.user_id
-  end
-
-  def publish_question
-    return if @question.errors.any?
-    ActionCable.server.broadcast('questions',
-      ApplicationController.render(
-        partial: 'questions/question',
-        locals: {question: @question}
-       )
-      )
   end
 end

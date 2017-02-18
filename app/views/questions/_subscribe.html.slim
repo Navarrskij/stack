@@ -1,6 +1,7 @@
 - if current_user && current_user.subscribed?(@question)
-  = link_to 'unsubscribe', Subscription.find_by(user: current_user, question: @question), method: :delete, remote: true
+    = link_to Subscription.find_by(user: current_user, question: @question), method: :delete, remote: true, class: 'btn btn-default' do
+      i.glyphicon.glyphicon-volume-off
 - else
   - if can? :create, Subscription
-    = link_to 'subscribe', question_subscriptions_path(@question),
-    method: :post, remote: true
+    = link_to question_subscriptions_path(@question), method: :post, remote: true, class: 'btn btn-default' do
+      i.glyphicon.glyphicon-bullhorn

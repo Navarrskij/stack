@@ -1,14 +1,17 @@
  h2
-  = link_to question.title, question_path(question)
-  p.lead
-    = "by "
-    = link_to question.user.email, '#'
   p
-    span.glyphicon.glyphicon-time
-      = question.created_at.strftime(" Posted on %b %e, %Y at %k:%M")
-  hr
-  p = question.body
+    = link_to question.title, question_path(question)
+  p
+    h6
+      = link_to "by #{question.user.email}", '#'
+    h6
+      span.glyphicon.glyphicon-time
+        = question.created_at.strftime(" Posted on %b %e, %Y at %k:%M")
+
+  p
+    h4
+      i= question.body
   = link_to question_path(question), class: "btn btn-primary" do
     = 'Show'
     span.glyphicon.glyphicon-chevron-right
-    hr
+  hr

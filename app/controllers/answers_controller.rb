@@ -2,7 +2,6 @@ class AnswersController < ApplicationController
   include Voted
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
-  after_action :publish_answer, only: :create
   before_action :load_question, only: :create
   before_action :desc_best_answer, only: :best
 
@@ -48,12 +47,5 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file])
-  end
-
-  def publish_answer
-    return if @answer.errors.any?
-    ActionCable.server.broadcast( "answers_#{@question.id}",
-      ApplicationController.render(json: { answer: @answer.as_json.merge(rating: @answer.rating), attachments: @answer.attachments })
-    )
   end
 end
