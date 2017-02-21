@@ -46,8 +46,8 @@ server "35.156.97.166", user: "ubuntu", roles: %w{app db web}, primary: true
 # --------------
   set :ssh_options, {
     keys: %w(/home/alex/testapp.pem),
-    forward_agent: true,
-    auth_methods: %w(publickey password),
+    forward_agent: true
+    
     
   }
 
