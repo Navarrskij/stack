@@ -7,8 +7,8 @@ set :repo_url, "git@github.com:Navarrskij/stack.git"
 
 
 # Default deploy_to directory is /var/www/my_app_name
- set :deploy_to, "/home/deployer/stack"
- set :deploy_user, "deployer"
+ set :deploy_to, "/home/ununtu/stack"
+ set :deploy_user, "ubuntu"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
