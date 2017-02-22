@@ -1,5 +1,5 @@
 # paths
-app_path = "/home/ubuntu/stack"
+app_path = "/home/deployer/stack"
 working_directory "#{app_path}/current"
 pid               "#{app_path}/current/tmp/pids/unicorn.pid"
 

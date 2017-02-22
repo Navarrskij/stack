@@ -15,15 +15,15 @@
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
- role :app, %w{ubuntu@35.156.97.166}
- role :web, %w{ubuntu@35.156.97.166}
- role :db,  %w{ubuntu@35.156.97.166}
+ role :app, %w{deployer@128.199.54.46}
+ role :web, %w{deployer@128.199.54.46}
+ role :db,  %w{deployer@128.199.54.46}
 
  set :rails_env, :production
  set :stage, :production
 
 
-server "35.156.97.166", user: "ubuntu", roles: %w{app db web}, primary: true
+server "128.199.54.46", user: "deployer", roles: %w{app db web}, primary: true
 
 
 # Configuration
@@ -45,9 +45,9 @@ server "35.156.97.166", user: "ubuntu", roles: %w{app db web}, primary: true
 # Global options
 # --------------
   set :ssh_options, {
-    keys: %w(/home/alex/testapp.pem),
-    forward_agent: true
-    
-    
+    keys: %w(home/alex/.ssh/id_rsa),
+    forward_agent: true,
+    auth_methods: %w(publickey password),
+    port: 4321
   }
 
